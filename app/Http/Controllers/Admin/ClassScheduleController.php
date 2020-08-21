@@ -397,7 +397,7 @@ class ClassScheduleController extends Controller
                             if($calendarReserve){
                                 T36tb::create(array('class'=>$class,'term'=>$term,'date'=>$data['date'],'site'=>$data['site'],'site_branch'=>$data['branch']));
                                 $sql = DB::getQueryLog();
-                                $nowdata = T36tb::where('class',$class)->where('term',$term)->where('date',$date)->where('site',$site)->get()->toarray();
+                                $nowdata = T36tb::where('class',$class)->where('term',$term)->where('date',$data['date'])->where('site',$data['site'])->get()->toarray();
                                 createModifyLog('I','t36tb','',$nowdata,end($sql));
                             }
                             // 預約教室
@@ -422,7 +422,7 @@ class ClassScheduleController extends Controller
                                     }
                                     DB::table($DB)->insert($inputdata);
                                     $sql = DB::getQueryLog();
-                                    $nowdata = DB::table($DB)->where('class',$class)->where('times',$value['time'])->where('date',$data['date'])->where('site',$value['site'])->get()->toarray();
+                                    $nowdata = DB::table($DB)->where('class',$class)->where('time',$value['time'])->where('date',$data['date'])->where('site',$data['site'])->get()->toarray();
                                     createModifyLog('I',$DB,'',$nowdata,end($sql));
                                 }
                             }
