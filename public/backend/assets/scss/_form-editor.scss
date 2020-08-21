@@ -1,0 +1,41 @@
+
+
+.note-editor {
+  position: relative;
+  &.note-frame {
+    border: 1px solid $light;
+  }
+  .note-toolbar {
+    background-color: $light3;
+    border-bottom: 1px solid $lightgray;
+    margin: 0;
+  }
+  .note-statusbar {
+    background-color: $white;
+    .note-resizebar {
+      border-top: 1px solid $lightgray;
+      height: 15px;
+      padding-top: 3px;
+    }
+  }
+}
+
+.note-popover {
+  .popover {
+    .popover-content {
+      padding: 5px 0 10px 5px;
+    }
+  }
+}
+
+.note-toolbar {
+  padding: 5px 0 10px 5px;
+}
+
+.wysihtml5-toolbar {
+  .dropdown-toggle{
+    &:after{
+      display: none;
+    }
+  }
+}

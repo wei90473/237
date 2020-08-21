@@ -1,0 +1,562 @@
+
+
+td {
+    vertical-align: middle !important;
+}
+
+
+
+@media only screen and (min-width: 1px) and (max-width: 768px) {
+    .mobile-100 {
+        width:100% !important;
+    }
+}
+
+@media only screen and (min-width: 1px) and (max-width: 768px) {
+
+}
+
+/* 表格標題旁sort */
+th .fa-sort {
+    float: right;
+    padding-top:5px;
+    cursor:pointer;
+    color:#8c8c8c;
+}
+th .fa-sort:hover {
+    color:#585858;
+}
+
+th {
+    word-break: keep-all;white-space:nowrap;
+}
+
+
+@media only screen and (min-width: 1px) and (max-width: 990px) {
+    th .fa-sort{
+        float: none;
+        padding-left: 5px;
+    }
+}
+
+/* 內頁表單寬度 */
+.form-card-box {
+    max-width:1360px;
+    margin: auto;
+    padding:0px !important;
+}
+
+
+/* 解掉手機版一開始選單會跑出來的問題 */
+@media only screen and (min-width: 1px) and (max-width: 768px) {
+    .side-menu {
+        display: none;
+    }
+}
+
+
+.footer {
+    min-height:62px;
+}
+
+
+.pointer {
+    cursor:pointer
+}
+
+
+.card-footer {
+    border-top: 1px solid rgb(236, 236, 236) !important;
+}
+
+.card-header {
+    border-bottom: 1px solid rgb(236, 236, 236) !important;
+}
+
+/* 輸入框最大長度 */
+.input-max {
+    max-width:800px;
+}
+/* 檔案上傳框最大長度 */
+.file-input-max {
+    max-width: 724px;
+}
+/* 數字欄位最大長度 */
+.number-input-max {
+    max-width: 730px;
+}
+
+/* 數字欄位加減按鈕 */
+.btn-number {
+    background-color: #e9ecef;
+    border: 1px solid #ced4da;
+    box-shadow: none;
+}
+
+
+/* 欄位可以輸入時的背景顏色 */
+.form-control {
+    border-radius:0px;
+    background-color: #FFF;
+    border: 1px solid #d2d6de;
+}
+
+.form-control:focus {
+    background-color: #FFF ;
+}
+
+/* 欄位禁止輸入時的背景顏色 */
+.form-control:disabled, .form-control[readonly] {
+    background-color: #eeeeee;
+    color: rgba(0, 0, 0, 0.6);
+}
+.form-control:disabled:focus, .form-control[readonly]:focus {
+    background-color: #eeeeee;
+    color: rgba(0, 0, 0, 0.6);
+}
+
+/* 禁止輸入時隱藏按鈕 */
+button:disabled {
+    display: none !important;
+}
+
+
+/* 隱藏 */
+.displaynone {
+    display: none;
+}
+
+.modal .card-header {
+    border-radius: 0px;
+}
+
+/* 輸入框說明字體顏色 */
+input::-webkit-input-placeholder {
+    color:#bbbbbb !important;}
+input:-moz-placeholder {
+    color:#bbbbbb !important;}
+input::-moz-placeholder {
+    color:#bbbbbb !important;}
+input:-ms-input-placeholder {
+    color:#bbbbbb !important;}
+
+
+
+.select2-container {
+    max-width:800px;
+    border-radius: 0px !important;
+    min-height: 36px !important;
+}
+
+.select2-selection--single {
+    border-radius: 0px !important;
+    height: 36px !important;
+}
+
+.select2-selection__arrow b {
+    display: none;
+}
+
+.select2-container .select2-selection--multiple {
+    border: 1px solid #d2d6de !important;
+    border-radius:0px;
+
+}
+
+.select2-container--default .select2-selection--multiple .select2-selection__rendered li {
+    border-radius: 0px;
+    /*background-color: red;*/
+}
+
+
+#wrapper.enlarged .left.side-menu {
+    padding: 0px;
+}
+
+
+
+
+
+
+
+
+
+
+.search-float .input-group-text {
+    padding-top: 5px;
+    padding-bottom: 4px;
+    color: #666666;
+    font-size: 15px;
+    border-color: #dee2e6;
+    background-color: #f8f8f8;
+    border-radius: 0px;
+}
+
+.search-float .form-control {
+    border-color: #dee2e6;
+    background-color: #FFF;
+    height: 36px;
+    border-radius: 0px;
+}
+
+
+.search-float .select2-container {
+    flex: 1 1 auto;
+    width: 1% !important;
+
+}
+
+.select2-selection__rendered{
+    color: rgba(0, 0, 0, 0.6) !important;
+}
+
+.search-float button {
+    background-color: #f8f8f8;
+    border-color: #dee2e6;
+    padding-bottom: 7px;
+    box-shadow: none;
+}
+
+.search-float .select2-container, .group .select2-container{
+    width: auto !important;
+    border-radius: 0px !important;
+    height: 36px !important;
+}
+
+.select2-container--default .select2-selection--single {
+    border: 1px solid #d2d6de !important;
+}
+
+
+.search-float .select2-selection--single, .search-float select {
+    border-radius: 0px !important;
+    height: 36px !important;
+    min-width: 180px;
+}
+
+.search-float .select2-selection__arrow b {
+    display: none;
+}
+
+.search-float input {
+    min-width: 180px;
+}
+
+select {
+    border: solid 1px #000;
+    appearance:none;
+    -moz-appearance:none;
+    -webkit-appearance:none;
+    padding-right: 14px;
+}
+
+select::-ms-expand {
+    display: none;
+}
+
+
+
+/* 表單錯誤 */
+.input_error {
+    border: 1px solid #ef5350 !important;
+}
+.error {
+    color: #ef5350;
+}
+
+.select2-container--default .select2-selection--single.input_error {
+    border: 1px solid #ef5350 !important;
+}
+
+
+
+/* 手機版統一搜尋標題寬 */
+@media only screen and (min-width: 1px) and (max-width: 768px) {
+    .search-float .input-group-text{
+        min-width: 86px;
+    }
+}
+
+
+/* icon大小 */
+i {
+    font-size: 16px !important;
+}
+
+/* 分頁圓角 */
+.pagination a {
+    border-radius: 0px !important;
+}
+
+
+/* 列表card footer 文字 */
+.list_card_footer_text {
+    color: #797979;
+    margin: 2px 0 3px 0;
+}
+.list_card_footer_text span{
+    font-weight: 600;
+    padding:0 6px;
+}
+
+.list_card_footer_text select{
+    padding-left: 15px;
+    border-color: #b9b8b8;
+    color: #797979;
+    margin:0 5px;
+    border-radius:0px;
+    font-weight: 600;
+}
+
+.icon404 {
+    font-size: 55px !important;
+}
+
+
+
+/* 編輯器 */
+.cke_toolgroup, .cke_combo_button {
+    border-radius:0px !important;
+}
+.cke_top {
+    background-image: none !important;
+    background: #f8f8f8 !important;
+    border-bottom: 1px solid #d2d6de !important;
+}
+
+.cke_chrome {
+    box-shadow:none !important;
+    border: 1px solid #d2d6de !important;
+}
+
+.cke_bottom {
+    border-top: 1px solid #d2d6de !important;
+    background: #f8f8f8 !important;
+    background-image: none !important;
+}
+
+textarea.ckeditor {
+    height: 700px;
+    visibility: collapse
+}
+
+
+/* 開關 */
+.toggle-on {
+    padding: 6px 9px 0 0px !important;
+}
+
+.toggle-off {
+    padding: 7px 0px 0 7px !important;
+}
+
+.active_checkbox {
+    display: none;
+}
+
+@media only screen and (min-width: 769px) {
+    .mobile_show {
+        display: none;
+    }
+}
+@media only screen and (min-width: 1px) and (max-width: 768px) {
+    .pc_show {
+        display: none !important;
+    }
+}
+
+/* 上傳檔案 */
+.file-border {
+    background-color: #f7f7f7;
+    border-radius: 0px;
+    position: relative;
+    border: 1px solid #dee2e6;
+    padding:.25rem;
+    text-align: left;
+}
+
+.file-del-btn {
+    /*position:absolute;*/
+    /*right: 5px;*/
+    display: none;
+}
+
+.file-download-btn {
+    /*position:absolute;*/
+    /*right: 48px;*/
+    display: none;
+}
+
+.file-box:hover .file-del-btn,.file-box:hover .file-download-btn{
+    display:inline-block;;
+}
+
+.file-border .input-group-append, .img-border .input-group-append {
+    border: 1px solid #d2d6de;
+}
+.file-border .input-group-text, .img-border .input-group-text {
+    font-size: 12px;
+}
+
+/* 上傳圖片 */
+.image-box:hover .img-del-btn{
+    display:block;
+}
+
+.img-border {
+    background-color: #f7f7f7;
+    border-radius: 0px;
+    position: relative;
+    text-align: center!important;
+}
+
+.img-border img {
+    max-width: 100%;
+    width: auto;
+}
+
+.img-del-btn{
+    display: none;
+    position: absolute;
+    right: 10px;
+    top: 5px;
+}
+
+/* 拖拉時隱藏下一層 */
+.sortable-ghost .img-border, .sortable-ghost .file-border{
+    opacity: 0;
+    border-color: red;
+}
+
+/* 拖拉時原本位子的css */
+.sortable-ghost {
+    border-width: 2px;
+    border-color: #d2d6de;
+    border-style: dotted;
+}
+
+/* 拖拉時不要呈現透明 */
+.sortable-fallback {
+    opacity: 1 !important;
+}
+
+.sortable_box .item {
+    cursor: move;
+}
+
+/* 日期選擇器 */
+.datepicker-days .active, .datepicker-months .active, .datepicker-years .active{
+    background-image: none !important;
+    background-color: #357ebd !important;
+}
+
+.datepicker-days .day{
+    min-width: 32px;
+    width: 32px;
+    height: 24px;
+    line-height: 24px;
+    font-size: 12px !important;
+    border-radius: 4px;
+    white-space: nowrap;
+    cursor: pointer;
+}
+
+.datepicker-days .dow {
+    width: 32px;
+    height: 24px;
+    line-height: 24px;
+    font-size: 12px !important;
+}
+
+.datepicker-months, datepicker-years {
+    width: 224px;
+    height: 269px;
+}
+.datepicker-months .table-condensed, .datepicker-years .table-condensed {
+    width: 100%;
+    height: 100%;
+}
+
+/* 選單 */
+.subdrop ~ .list-unstyled{
+    display: block !important;
+}
+
+@media only screen and (min-width: 769px) and (max-width: 990px) {
+    .subdrop ~ .list-unstyled{
+        display: none !important;
+    }
+}
+
+/* 分隔線 */
+form hr{
+    height: 1px;
+    border: none;
+    background-color: #8db1e2;
+}
+
+#form .card-footer {
+    min-height: 56px;
+}
+
+.number-plus, .number-less {
+    border-radius:0px;
+    width: 38px;
+}
+
+#paginate_qty {
+    cursor: pointer;
+}
+
+.subdrop_bk {
+    background-color: #f3f3f3;
+}
+
+.file-box-loading {
+    position: absolute;
+    margin-left: 40%;
+}
+
+.ion-icon {
+    font-size: 18px !important;
+}
+
+.md {
+    font-size: 20px !important;
+}
+
+/* 警告視窗要在最上面 */
+.swal2-container {
+    z-index: 99999;
+}
+
+.cke_dialog_ui_hbox_first {
+    /*display: none;*/
+}
+
+.cke_dialog .ImagePreviewBox {
+    width: 410px !important;
+}
+
+.cke_reset_all, .cke_reset_all *, .cke_reset_all a, .cke_reset_all textarea {
+    width: 100%;
+}
+
+/* 民國日期輸入 */
+.roc-date .input-group-text {
+    font-size: 14px;
+    border-radius: 0px;
+    border-color: #d2d6de;
+}
+
+.roc-date input {
+    border-right-color: #FFF;
+
+}
+
+/* 群組輸入欄位 */
+.group .input-group-text {
+    font-size: 14px;
+    border-radius: 0px;
+    border-color: #d2d6de;
+}

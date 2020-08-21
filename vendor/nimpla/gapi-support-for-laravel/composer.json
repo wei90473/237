@@ -1,0 +1,20 @@
+{
+    "name": "nimpla/gapi-support-for-laravel",
+    "description": "Google Analytics PHP Interface Support for Laravel",
+    "license": "MIT",
+    "type": "laravel-plugin",
+    "require": {
+        "php": ">=5.3.0"
+    },
+    "authors": [
+        {
+            "name": "Nils Blaumer",
+            "email": "nils.blaumer@gmx.de"
+        }
+    ],
+    "autoload": {
+        "psr-0": {
+            "Nimpla\\Gapi": "src"
+        }
+    }
+}

@@ -1,0 +1,22 @@
+{
+    "name": "flamelin/ecpay",
+    "description": "ECPay for Laravel 5",
+    "type": "ecTool",
+    "keywords": ["ecpay"],
+    "authors": [
+        {
+            "name": "AIRO",
+            "email": "service@airo.com.tw"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {},
+    "autoload": {  
+        "classmap": [
+            "src/lib"
+        ],
+        "psr-4": {
+            "flamelin\\ECPay\\": "src/"
+        }
+    }
+}

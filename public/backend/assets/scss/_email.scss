@@ -1,0 +1,29 @@
+
+
+/* ==============
+  Email
+===================*/
+
+.mails {
+  a {
+    color: $lightdark4;
+  }
+  .checkbox {
+    margin-bottom: 0px;
+    margin-top: 0px;
+    vertical-align: middle;
+    label {
+      min-height: 16px;
+      margin-bottom: 0px;
+    }
+  }
+  td {
+    border: none;
+  }
+}
+
+.checkbox input[type=checkbox], .checkbox-inline input[type=checkbox], .radio input[type=radio], .radio-inline input[type=radio] {
+  position: absolute;
+  margin-top: 4px\9;
+  margin-left: -20px;
+}

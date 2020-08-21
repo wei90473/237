@@ -1,0 +1,119 @@
+
+
+.wizard > .content {
+  background: $white;
+  min-height: 240px;
+  padding: 20px;
+}
+
+.wizard > .content > .body {
+  padding: 0px;
+  input {
+    border: 1px solid $light;
+  }
+  ul > li {
+    display: block;
+    line-height: 30px;
+  }
+  label.error {
+    color: #e55957;
+    margin-left: 0;
+  }
+}
+
+.wizard > .steps {
+  .number {
+    border-radius: 50%;
+    display: inline-block;
+    line-height: 30px;
+    margin-right: 10px;
+  }
+  .disabled {
+    a {
+      background: #f2f2f2;
+      color: $lightdark3;
+      cursor: default;
+      &:hover {
+        background: #f2f2f2;
+        color: $lightdark3;
+        cursor: default;
+      }
+      &:active {
+        background: #f2f2f2;
+        color: $lightdark3;
+        cursor: default;
+      }
+    }
+  }
+  .current {
+    a {
+      background: $primary;
+      &:hover {
+        background: $primary;
+        .number {
+          background: transparent;
+          color: $white;
+        }
+      }
+      &:active {
+        background: $primary;
+        .number {
+          background: transparent;
+          color: $white;
+        }
+      }
+      .number {
+        background: transparent;
+        color: $white;
+      }
+    }
+  }
+  .done {
+    a {
+      background: $lightdark-alt;
+      &:hover {
+        background: $lightdark-alt;
+      }
+      &:active {
+        background: $lightdark-alt;
+      }
+    }
+  }
+}
+
+.wizard > .steps a, .wizard > .steps a:hover, .wizard > .steps a:active, .wizard > .content {
+  border-radius: 2px;
+}
+
+.wizard > .actions {
+  margin-bottom: 30px;
+  a {
+    background: $primary;
+    border-radius: 2px;
+    color: $white;
+    &:hover {
+      background: $primary;
+      border-radius: 2px;
+      color: $white;
+    }
+    &:active {
+      background: $primary;
+      border-radius: 2px;
+      color: $white;
+    }
+  }
+  .disabled {
+    a {
+      background: #e2e2e2;
+      color: $lightdark3;
+      &:hover {
+        background: #e2e2e2;
+        color: $lightdark3;
+      }
+      &:active {
+        background: #e2e2e2;
+        color: $lightdark3;
+      }
+    }
+  }
+}

@@ -1,0 +1,169 @@
+
+
+/* ==============
+  General
+===================*/
+
+body {
+  background: $light5;
+  font-family: $font-primary;
+  margin: 0;
+  font-size: 14px;
+}
+html {
+    overflow-x: hidden;
+    position: relative;
+    min-height: 100%;
+    background: $light5;
+}
+h1, h2, h3, h4, h5, h6 {
+  color: #505458;
+  font-family: $font-secondary;
+  margin: 10px 0;
+}
+
+h1 {
+  line-height: 43px;
+  font-size: 36px;
+  small {
+    color: $lightdark7;
+  }
+}
+
+h2 {
+  line-height: 35px;
+  font-size: 30px;
+  small {
+    color: $lightdark7;
+  }
+}
+
+h3 {
+  line-height: 30px;
+  font-size: 24px;
+  small {
+    color: $lightdark7;
+  }
+}
+
+h4 {
+  line-height: 22px;
+  font-size: 18px;
+  small {
+    color: $lightdark7;
+  }
+}
+
+h5 {
+  font-size: 14px;
+  small {
+    color: $lightdark7;
+  }
+}
+
+h6{
+  font-size: 12px;
+  small {
+    color: $lightdark7;
+  }
+}
+
+* {
+  outline: none !important;
+}
+
+.f-s-13{
+  font-size: 13px;
+}
+
+a {
+  &:hover {
+    outline: 0;
+    text-decoration: none;
+  }
+  &:active {
+    outline: 0;
+    text-decoration: none;
+  }
+  &:focus {
+    outline: 0;
+    text-decoration: none;
+  }
+}
+
+.container {
+  width: auto;
+}
+
+.container-alt {
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+.footer {
+  background-color: $light9;
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+  bottom: 0px;
+  color: #58666e;
+  text-align: left;
+  padding: 20px 30px;
+  position: absolute;
+  right: 0;
+  left: 240px;
+}
+
+#wrapper {
+  height: $height;
+  overflow: hidden;
+  width: $width;
+}
+
+.page {
+  bottom: 0;
+  left: 0;
+  right: 0;
+  top: 0;
+}
+
+.page-title {
+  font-size: 18px;
+  margin-bottom: 20px;
+  margin-top: 13px;
+}
+
+
+.social-links {
+  li {
+    a {
+      -webkit-border-radius: 50%;
+      background: #EFF0F4;
+      border-radius: 50%;
+      color: #7A7676;
+      display: inline-block;
+      height: 30px;
+      line-height: 30px;
+      text-align: center;
+      width: 30px;
+    }
+  }
+}
+
+.table-active, .table-active>td, .table-active>th{
+  background-color: rgba(0, 0, 0, 0.03);
+}
+
+/* Dropcap */
+.dropcap {
+  font-size: 3.1em;
+}
+
+.dropcap, .dropcap-circle, .dropcap-square {
+  display: block;
+  float: left;
+  font-weight: 400;
+  line-height: 36px;
+  margin-right: 6px;
+  text-shadow: none;
+}

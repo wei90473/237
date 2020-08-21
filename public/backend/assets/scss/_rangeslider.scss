@@ -1,0 +1,36 @@
+
+
+/* ==============
+  rangeslider
+===================*/
+
+.irs-line-mid, .irs-line-left, .irs-line-right, .irs-bar, .irs-bar-edge, .irs-slider {
+  background: none;
+}
+
+.irs-from, .irs-to, .irs-single {
+  background: lighten($danger, 5%);
+
+  &:after{
+    border-top-color: lighten($danger, 5%);
+  }
+}
+
+.irs-bar {
+  background-color: lighten($danger, 5%);
+}
+
+
+.irs-line-left {
+  background-color: $light;
+  border-radius: 3px 0 0 3px;
+}
+
+.irs-line-mid {
+  background-color: $light;
+}
+
+.irs-line-right {
+  background-color: $light;
+  border-radius: 0 3px 3px 0;
+}

@@ -1,0 +1,164 @@
+
+
+/* ==============
+  Buttons
+===================*/
+
+.btn {
+  font-size: 14px;
+  -moz-box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.1);
+  -webkit-box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.1);
+  border-radius: 2px;
+  box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.1);
+  letter-spacing: 0.2px;
+
+  &:hover {
+    -moz-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+    -webkit-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+    opacity: 1;
+  }
+
+  &:focus {
+    -moz-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+    -webkit-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+    opacity: 1;
+  }
+}
+
+.btn-sm {
+  min-height: 30px;
+}
+
+.btn-primary, .btn-success, .btn-info, .btn-warning, .btn-danger, .btn-inverse, .btn-purple, .btn-pink {
+  color: $white !important;
+}
+
+
+.btn-primary, .btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active, .btn-primary.focus, .btn-primary:active, .btn-primary:focus, .btn-primary:hover, .open > .dropdown-toggle.btn-primary {
+  background-color: $primary !important;
+  border: 1px solid $primary !important;
+}
+
+.btn-success, .btn-success:hover, .btn-success:focus, .btn-success:active, .btn-success.active, .btn-success.focus, .btn-success:active, .btn-success:focus, .btn-success:hover, .open > .dropdown-toggle.btn-success {
+  background-color: $success !important;
+  border: 1px solid $success !important;
+}
+
+.btn-info, .btn-info:hover, .btn-info:focus, .btn-info:active, .btn-info.active, .btn-info.focus, .btn-info:active, .btn-info:focus, .btn-info:hover, .open > .dropdown-toggle.btn-info {
+  background-color: $info !important;
+  border: 1px solid $info !important;
+}
+
+.btn-warning, .btn-warning:hover, .btn-warning:focus, .btn-warning:active, .btn-warning.active, .btn-warning.focus, .btn-warning:active, .btn-warning:focus, .btn-warning:hover, .open > .dropdown-toggle.btn-warning {
+  background-color: $warning !important;
+  border: 1px solid $warning !important;
+  color: $lightdark3 !important;
+}
+
+.btn-danger, .btn-danger:active, .btn-danger:focus, .btn-danger:hover, .btn-danger.active, .btn-danger.focus, .btn-danger:active, .btn-danger:focus, .btn-danger:hover, .open > .dropdown-toggle.btn-danger {
+  background-color: $danger !important;
+  border: 1px solid $danger !important;
+}
+
+.btn-inverse, .btn-inverse:hover, .btn-inverse:focus, .btn-inverse:active, .btn-inverse.active, .btn-inverse.focus, .btn-inverse:active, .btn-inverse:focus, .btn-inverse:hover, .open > .dropdown-toggle.btn-inverse {
+  background-color: $inverse !important;
+  border: 1px solid $inverse !important;
+  color: $white;
+}
+
+.btn-purple, .btn-purple:hover, .btn-purple:focus, .btn-purple:active {
+  background-color: $purple !important;
+  border: 1px solid $purple !important;
+  color: $white;
+}
+
+.btn-pink, .btn-pink:hover, .btn-pink:focus, .btn-pink:active {
+  background-color: $pink !important;
+  border: 1px solid $pink !important;
+  color: $white;
+}
+
+.btn-light{
+  color: $inverse !important;
+}
+
+.btn-custom.btn-primary {
+  color: $primary !important;
+}
+
+.btn-custom.btn-success {
+  color: $success !important;
+}
+
+.btn-custom.btn-info {
+  color: $info !important;
+}
+
+.btn-custom.btn-warning {
+  color: $warning !important;
+}
+
+.btn-custom.btn-danger {
+  color: $danger !important;
+}
+
+.btn-custom.btn-inverse {
+  color: $inverse !important;
+}
+
+.btn-custom.btn-purple {
+  color: $purple !important;
+}
+
+.btn-custom.btn-pink {
+  color: $pink !important;
+}
+
+.btn-rounded {
+  border-radius: 2em;
+  padding: 6px 18px;
+}
+
+.btn-custom {
+  -moz-border-radius: 2px;
+  -moz-transition: all 400ms ease-in-out;
+  -o-transition: all 400ms ease-in-out;
+  -webkit-border-radius: 2px;
+  -webkit-transition: all 400ms ease-in-out;
+  background: transparent;
+  background-color: transparent !important;
+  border-radius: 2px;
+  border-width: 1px;
+  transition: all 400ms ease-in-out;
+  &:hover {
+    color: $white !important;
+  }
+  &:focus {
+    color: $white !important;
+  }
+}
+
+.btn-lg {
+  padding: 10px 16px;
+  font-size: 18px;
+  line-height: 1.3333333;
+}
+.btn-xs {
+  padding: 1px 5px;
+  font-size: 12px;
+  min-height: 22px;
+}
+
+.btn-group-justified {
+  display: table;
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: separate;
+  > .btn{
+    display: table-cell;
+  float: none;
+  width: 1%;
+  }
+}

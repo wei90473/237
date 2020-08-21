@@ -1,0 +1,71 @@
+
+
+/* ==============
+  Charts
+===================*/
+
+.jqstooltip {
+  -webkit-box-sizing: content-box;
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
+}
+.chart {
+  position: relative;
+  display: inline-block;
+  width: 110px;
+  height: 110px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  text-align: center;
+  canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+}
+
+.chart.chart-widget-pie {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.percent {
+  display: inline-block;
+  line-height: 110px;
+  z-index: 2;
+
+  &:after {
+    content: '%';
+    margin-left: 0.1em;
+    font-size: .8em;
+  }
+}
+
+/*********** morris charts ***********/
+
+.morris-charts{
+  text{
+    font-family: $font-primary !important;
+  }
+}
+
+
+/*********** flot charts ***********/
+
+#flotTip {
+  padding: 4px 8px;
+  background-color: #000000;
+  z-index: 100;
+  color: $white;
+  opacity: .7;
+  font-size: 12px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+}
+
+.flot-chart {
+  .error {
+    display: none;
+  }
+}

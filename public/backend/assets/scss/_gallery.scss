@@ -1,0 +1,58 @@
+
+
+/* ==============
+  Gallery
+===================*/
+
+
+.portfolioFilter {
+  padding: 0px;
+  li{
+    list-style: none;
+    display: inline-block;
+    a {
+      -moz-box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.1);
+      -moz-transition: all 0.3s ease-out;
+      -ms-transition: all 0.3s ease-out;
+      -o-transition: all 0.3s ease-out;
+      -webkit-box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.1);
+      -webkit-transition: all 0.3s ease-out;
+      box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.1);
+      color: #333333;
+      padding: 5px 10px;
+      transition: all 0.3s ease-out;
+      &:hover {
+        background-color: $primary;
+        color: $white;
+      }
+    }
+    a.current {
+      background-color: $primary;
+      color: $white;
+    }
+  }
+}
+
+.thumb {
+  background-color: $white;
+  border-radius: 3px;
+  box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.1);
+  margin-top: 30px;
+  padding-bottom: 10px;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 10px;
+  width: $width;
+}
+
+.thumb-img {
+  border-radius: 2px;
+  overflow: hidden;
+  width: $width;
+}
+
+.gal-detail {
+  h4 {
+    margin-top: 16px;
+  }
+}

@@ -1,0 +1,25 @@
+
+
+
+@media print {
+  .logo,.page-title,.breadcrumb,.footer {
+    display: none !important;
+    margin: 0px !important;
+    padding: 0px !important;
+  }
+   
+  .left {
+    display: none;
+  }
+  .right-bar {
+    display: none !important;
+  }
+  .content {
+    margin-top: 0px;
+    padding-top: 0px;
+  }
+  .content-page {
+    margin-left: 0px !important;
+    margin-top: 0px;
+  }
+}

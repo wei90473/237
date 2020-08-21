@@ -1,0 +1,38 @@
+
+
+/* ==============
+  Count Down
+===================*/
+
+.home-wrapper {
+  margin: 17% 0px;
+}
+
+.lj-countdown {
+  color: $primary;
+  margin-top: 40px;
+  text-align: center;
+  div {
+    display: inline-block;
+    span {
+      display: block;
+      width: 150px;
+      &:first-child {
+        font-size: 3em;
+        font-weight: 700;
+        height: 48px;
+        line-height: 48px;
+      }
+      &:last-child {
+        color: #333333;
+        font-size: 0.9em;
+        height: 25px;
+        line-height: 25px;
+      }
+    }
+  }
+}
+
+.lj-countdown > * {
+  text-align: center;
+}

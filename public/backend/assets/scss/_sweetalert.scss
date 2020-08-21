@@ -1,0 +1,19 @@
+
+
+/* ==============
+  Sweet Alert
+===================*/
+
+.swal2-popup {
+  .swal2-content{
+    font-size: 14px;
+    line-height: 22px;
+    color: $lightdark7;
+  }
+}
+
+button.swal2-confirm {
+  background-color: $primary !important;
+  border-color: $primary !important;
+  box-shadow: none !important;
+}

@@ -1,0 +1,42 @@
+
+
+.code-edit-wrap {
+  padding: 0px !important;
+}
+
+.cm-s-ambiance {
+  .CodeMirror-linenumber {
+    color: #bcbcbc;
+  }
+  .CodeMirror-gutters {
+    background-color: $inverse !important;
+    box-shadow: none;
+  }
+}
+
+.cm-s-ambiance.CodeMirror {
+  background-color: $inverse !important;
+  box-shadow: none;
+}
+
+.bootstrap-timepicker-widget {
+  table {
+    td {
+      a {
+        &:hover {
+          background-color: transparent;
+          border-color: transparent;
+          border-radius: 4px;
+          color: $primary;
+          text-decoration: none;
+        }
+      }
+    }
+  }
+}
+
+.editor-horizontal {
+  .popover-content {
+    padding: 9px 30px;
+  }
+}
