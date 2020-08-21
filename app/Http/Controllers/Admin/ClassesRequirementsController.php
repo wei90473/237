@@ -438,12 +438,24 @@ class ClassesRequirementsController extends Controller
             $logarray = $this->getlog('U',$content,$rule);
         }
         DB::beginTransaction();
+        DB::connection()->enableQueryLog(); //啟動SQL_LOG
         try{
             T35tb::create($logarray);
-            if($branch =='1'){          
+            $sql = DB::getQueryLog();
+            $nowdata = T35tb::where('class',$data['class'])->where('term',$data['term'])->where('date',$data['date'])->where('type',$data['type'])->get()->toarray();
+            createModifyLog('I','t35tb','',$nowdata,end($sql));
+            if($branch =='1'){  
+                $olddata = T23tb::where('class',$data['class'])->where('term',$data['term'])->where('date',$data['date'])->get()->toarray();    
                 T23tb::where('class',$data['class'])->where('term',$data['term'])->where('date',$data['date'])->update($T23data);
+                $sql = DB::getQueryLog();
+                $nowdata = T23tb::where('class',$data['class'])->where('term',$data['term'])->where('date',$data['date'])->get()->toarray();
+                createModifyLog('U','t23tb',$olddata,$nowdata,end($sql));
             }else{
+                $olddata = Edu_classdemand::where('class',$data['class'])->where('term',$data['term'])->where('date',$data['date'])->get()->toarray();
                 Edu_classdemand::where('class',$data['class'])->where('term',$data['term'])->where('date',$data['date'])->update($data);
+                $sql = DB::getQueryLog();
+                $nowdata = Edu_classdemand::where('class',$data['class'])->where('term',$data['term'])->where('date',$data['date'])->get()->toarray();
+                createModifyLog('U','edu_classdemand',$olddata,$nowdata,end($sql));
             }
             DB::commit();
             return back()->with('result', '1')->with('message', '編輯成功!!');
