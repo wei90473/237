@@ -5,8 +5,6 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Blade;
 
-
-
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -29,6 +27,9 @@ class AppServiceProvider extends ServiceProvider
         Blade::directive('removeoradd', function ($expression) {
             return "(in_array(\$_menu, {$expression}))? 'md-remove' : 'md-add'";
         });
+
+        
+
     }
 
     /**

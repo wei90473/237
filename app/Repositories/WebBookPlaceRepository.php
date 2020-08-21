@@ -7,6 +7,8 @@ use App\Models\Edu_unitset;
 use App\Models\Edu_holiday;
 use App\Models\Edu_loanplace;
 use App\Models\Edu_classroomcls;
+use App\Models\Edu_classroom;
+
 use App\Models\Edu_loansroom;
 use App\Models\Edu_loanroom;
 use App\Models\Edu_classterm;
@@ -190,9 +192,15 @@ class WebBookPlaceRepository
 
     public function getClassroom($croomclsno)
     {
-        $query = Edu_classroomcls::selectRaw('classroom,croomclsfullname');
-        $query->where('croomclsno','=',$croomclsno);
+        // dd($croomclsno);
+        //Sam : 取得教室應該是抓edu_classroom這張表
+        // $query = Edu_classroomcls::selectRaw('classroom,croomclsfullname');
+        // $query->where('croomclsno','=',$croomclsno);
+        // $result=$query->get();
+        $query = Edu_classroom::selectRaw('roomname,fullname');
+        $query->where('roomno','=',$croomclsno);
         $result=$query->get();
+
 
         return $result;
     }
@@ -417,16 +425,25 @@ class WebBookPlaceRepository
 
     public function get_edu_loanplacelst($applyno)
     {
+      
         $query=Edu_loanplacelst::select("*");
         $query->where("applyno",$applyno);
         $result=$query->get();
         $result=$result->toArray();
+     
         for($i=0;$i<count($result);$i++){
             $result[$i]['loansroom_count']=$this->getCountLoansRoom($result[$i]["applyno"],$result[$i]["croomclsno"]);
             $result[$i]['loanroom_count']=$this->getCountLoanRoom($result[$i]["applyno"],$result[$i]["croomclsno"]);
             $croomclsfullname = $this->getClassroom($result[$i]["croomclsno"]);
-            $result[$i]['croomclsfullname'] = $croomclsfullname[0]['croomclsfullname'];
+            // dd($result[$i]["croomclsno"]);
+            if(count($croomclsfullname)>0){
+                $result[$i]['croomclsfullname'] = $croomclsfullname[0]['fullname'];
+            }else{
+                $result[$i]['croomclsfullname'] = '無場地名稱';
+            }
+             
         }
+ 
         return $result;
     }
 

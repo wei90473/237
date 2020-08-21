@@ -48,6 +48,10 @@
     Route::post('admin/login', 'Auth\ManagerLoginController@login');
     // 後台登出
     Route::get('admin/logout', 'Auth\ManagerLoginController@logout');
+// Route::post('/sso_login', 'ConnectionController@sso_login');
+    Route::get('api/sso_login', 'Auth\ManagerLoginController@ssoLogin');
+    Route::get('api/gogoLogin', 'Auth\ManagerLoginController@gogoLogin');
+
 
     // 後台
     Route::group(['middleware' => ['auth:managers'], 'prefix' => 'admin', 'namespace' => 'Admin' ], function() {
@@ -56,6 +60,8 @@
     Route::get('home', 'HomeController@index');
     Route::get('/', 'HomeController@index');
     Route::get('goToTrain', 'HomeController@goToTrain');
+    Route::get('goToEApp', 'HomeController@goToEApp');
+
 
     // Profile
     Route::get('profile', 'ProfileController@edit');
@@ -64,6 +70,11 @@
     Route::post('upload/image/{channel}', 'UploadImageController@upload');
     // 檔案上傳
     Route::post('upload/file/{channel}', 'UploadFileController@upload');
+
+    //前台角色模擬
+    Route::get('web_simulation', 'Web_simulationController@index');
+    Route::post('web_simulation', 'Web_simulationController@index');
+    Route::post('web_simulation/simulate', 'Web_simulationController@simulate');
 
     // 權限群組維護
     Route::get('user_group', 'User_groupController@index');
@@ -231,6 +242,7 @@
     Route::post('demand_survey/canceldata', 'DemandSurveyController@canceldata');
     Route::get('demand_survey/demanddata', 'DemandSurveyController@demanddata');
     Route::post('demand_survey/resetdata', 'DemandSurveyController@resetdata');
+    Route::post('demand_survey/marge', 'DemandSurveyController@marge');
     Route::get('demand_survey/{id}', 'DemandSurveyController@show');
     Route::get('demand_survey/{id}/edit', 'DemandSurveyController@edit');
     Route::put('demand_survey/{id}', 'DemandSurveyController@update');
@@ -247,9 +259,9 @@
     Route::put('demand_distribution/{id}', 'DemandDistributionController@update');
     Route::put('demand_distribution/set_tune_quotatot/{class}', 'DemandDistributionController@update_tune_quotatot');//更改需求分配處理-機關已分配人數
     Route::post('demand_distribution/demand_orga_list_update', 'DemandDistributionController@demand_orga_list_update');//更改機關已分配人數 T02
-   
-  
-  
+
+
+
 
 
     // 委訓班需求調查處理
@@ -270,6 +282,10 @@
     Route::post('demand_survey_commissioned/audit_reject', 'DemandSurveyCommissionedController@audit_reject');
     Route::post('demand_survey_commissioned/audit_ing', 'DemandSurveyCommissionedController@audit_ing');
     Route::put('demand_survey_commissioned/import_save/{id}', 'DemandSurveyCommissionedController@import_save');
+    Route::post('demand_survey_commissioned/import_class_data/{id}', 'DemandSurveyCommissionedController@import_class_data');
+
+
+
 
     // 開班期數
     Route::get('periods', 'PeriodsController@index');
@@ -290,7 +306,7 @@
     Route::get('schedule', 'ScheduleController@index');
     Route::get('schedule/create', 'ScheduleController@create');
     Route::get('schedule/importExample', 'ScheduleController@importExample');
-
+    Route::get('schedule/computeAttendClassDate', 'ScheduleController@computeAttendClassDate');
     Route::get('schedule/calendar', 'ScheduleController@calendar');
     Route::get('schedule/details', 'ScheduleController@details');
     Route::get('schedule/{id}', 'ScheduleController@show');
@@ -303,6 +319,7 @@
 
     Route::post('schedule/create', 'ScheduleController@store');
     Route::post('schedule/operate', 'ScheduleController@operate');
+    Route::post('schedule/batchOperate', 'ScheduleController@batchOperate');
     Route::post('schedule/import', 'ScheduleController@import');
 
     //訓練績效
@@ -331,6 +348,7 @@
     // 會議資料處理
     Route::get('session', 'SessionController@index');
     Route::get('session/create', 'SessionController@create');
+    Route::post('session/getserno', 'SessionController@getserno');  //ajax
     Route::post('session/', 'SessionController@store');
     Route::get('session/{id}', 'SessionController@show');
     Route::get('session/{id}/edit', 'SessionController@edit');
@@ -340,21 +358,23 @@
     //場地預約處理
     Route::get("bookplace/index",'BookPlaceController@index');
     Route::post("bookplace/index",'BookPlaceController@index');
-    Route::get("bookplace/getPlace/{type}",'BookPlaceController@getPlace'); //ajax
+    Route::post("bookplace/getPlace/{type}",'BookPlaceController@getPlace'); //ajax
     Route::get("bookplace/addClassroom/{type}",'BookPlaceController@addClassroom');
     Route::post("bookplace/addClassroom",'BookPlaceController@addClassroom');
     Route::get("bookplace","BookPlaceController@form")->name("bookplace_form");
-    Route::put("bookplace/{arr}","BookPlaceController@update")->where('arr','!=','batchVerify');
     Route::post("bookplace","BookPlaceController@store")->name('bookplace_post');
     Route::post("bookplace/getT22tbAjax","BookPlaceController@getT22tbAjax");
     Route::get("bookplace/setWeek/{arr}","BookPlaceController@setWeek");
     Route::get("bookplace/batchVerify","BookPlaceController@batchVerify");
     Route::put("bookplace/batchVerify","BookPlaceController@batchUpdate");
+    Route::put("bookplace/{arr}","BookPlaceController@update");
     Route::get("bookplace/setTime","BookPlaceController@setTime");
     Route::put("bookplace/seatType","BookPlaceController@seatUpdate")->name("seattype_update");
+    Route::delete('bookplace/delete', 'BookPlaceController@destroy');
 
     //網路預約場地審核處理(南投)
     Route::get("webbookplace","WebBookPlaceController@index");
+    Route::get("webbookplace/delete/{applyno}","WebBookPlaceController@delete")->name("webbook.delete.delete");;
     Route::get("webbookplace/saveConfirmFee","WebBookPlaceController@saveConfirmFee");
     Route::get("webbookplace/webbookplaceNantou","WebBookPlaceController@webbookplaceNantou")->name("webbook.Nantou.get");
     Route::post("webbookplace/webbookplaceNantou","WebBookPlaceController@webbookplaceNantou")->name("webbook.Nantou.post");
@@ -394,7 +414,7 @@
     Route::put("webbookplaceTaipei/audit","WebBookPlaceController@audit");
     Route::get('webbookplaceTaipei/edit/{key}/apply_doc', 'WebBookPlaceController@apply_doc');
     Route::get('webbookplaceTaipei/edit/{key}/export_doc', 'WebBookPlaceController@export_doc');
-    
+
     //場地收費(南投院區)
     Route::get("space_charges","SpaceChargesController@index");
     Route::get('space_charges/ChargesSub1/{applyno}', 'SpaceChargesController@ChargesSub1');
@@ -409,12 +429,25 @@
     Route::get("roomset/editRoomset/{class}/{term}","RoomSetController@editRoomset");
     Route::put('roomset/updateRoomset', 'RoomSetController@updateRoomset');
     Route::get('roomset/bedSet/{class}/{term}/{sex}', 'RoomSetController@bedSet');
-    
-    
+    Route::put('roomset/updateBedset', 'RoomSetController@updateBedset');
+    Route::put('roomset/batchUpdateBedInfo', 'RoomSetController@batchUpdateBedInfo');
+    Route::get('roomset/cancelRoomset/{class}/{term}/{sex}', 'RoomSetController@cancelRoomset');
+    Route::get("roomset/editLongRoomset/{class}/{term}","RoomSetController@editLongRoomset");
+    Route::put('roomset/updateLongRoomset', 'RoomSetController@updateLongRoomset');
+    Route::get('roomset/longBedSet/{class}/{term}/{week}/{sex}', 'RoomSetController@longBedSet');
+    Route::put('roomset/updateLongBedset', 'RoomSetController@updateLongBedset');
+    Route::put('roomset/batchUpdateLongBedInfo', 'RoomSetController@batchUpdateLongBedInfo');
+    Route::get('roomset/autoSetAgain/{class}/{term}/{staystartdate}/{stayenddate}/{longclass}/{week}', 'RoomSetController@autoSetAgain');
+    Route::get('roomset/cancelLongRoomset/{class}/{term}/{week}/{sex}', 'RoomSetController@cancelLongRoomset');
+    Route::get('roomset/export/{sdate}/{edate}', 'RoomSetController@export')->name("autoExport");
+
+    //學員寢室床位查詢
+    Route::get("StudentRoomQuery","StudentRoomQueryController@index");
+
     // 時段設定
     Route::get('time_setting', 'TimeSettingController@index');
     Route::put('time_setting', 'TimeSettingController@update'); //修改
-    
+
     // 機關密碼維護
     Route::get('password_maintenance', 'PasswordMaintenanceController@index');
     Route::post('password_maintenance/act1', 'PasswordMaintenanceController@act1'); // 使用者設定
@@ -470,6 +503,8 @@
     Route::delete('poll/{id}', 'PollController@destroy');
 
     // 講座擬聘處理
+    Route::post('waiting/getTeacher', 'WaitingController@getTeacher');
+    Route::get('waiting/getIdno', 'WaitingController@getIdno'); // 取得姓名
     Route::get('waiting', 'WaitingController@index');
     Route::get('waiting/create', 'WaitingController@create');
     Route::post('waiting/', 'WaitingController@store');
@@ -568,6 +603,7 @@
     Route::delete('lecture/{id}', 'LectureController@destroy');
     Route::delete('lecture/{id}/from', 'LectureController@destroy_from');
     Route::post('lecture/getterm', 'LectureController@getTerm'); // 取得期別
+    Route::post('lecture/checkidno', 'LectureController@checkidno'); // 取得期別
 
 
 
@@ -575,11 +611,14 @@
     Route::post('employ/getterm', 'EmployController@getTerm'); // 取得期別
     Route::post('employ/getcourse', 'EmployController@getCourse'); // 取得班別
     Route::post('employ/getlecthr', 'EmployController@getlecthr');
+    Route::post('employ/getkind', 'EmployController@getkind');
     Route::get('employ/getIdno', 'EmployController@getIdno'); // 取得姓名
     Route::get('employ', 'EmployController@index');
     Route::get('employ/detail', 'EmployController@detail');
 	Route::get('employ/payroll', 'EmployController@payroll');
     Route::get('employ/create', 'EmployController@create');
+    Route::get('employ/sort', 'EmployController@sort');
+    Route::post('employ/sort', 'EmployController@updateSort');
     Route::post('employ/', 'EmployController@store');
     Route::get('employ/{id}', 'EmployController@show');
     Route::get('employ/{id}/edit', 'EmployController@edit');
@@ -615,14 +654,14 @@
     Route::delete('site_survey/{id}', 'SiteSurveyController@destroy');
 
     // 場地問卷處理(96~100)
-    Route::get('site_survey_old/gettimes/{id}', 'SiteSurveyController@getTimes'); // 取得第幾次調查
-    Route::get('site_survey_old', 'SiteSurveyController@index');
-    Route::get('site_survey_old/create', 'SiteSurveyController@create');
-    Route::post('site_survey_old/', 'SiteSurveyController@store');
-    Route::get('site_survey_old/{id}', 'SiteSurveyController@show');
-    Route::get('site_survey_old/{id}/edit', 'SiteSurveyController@edit');
-    Route::put('site_survey_old/{id}', 'SiteSurveyController@update');
-    Route::delete('site_survey_old/{id}', 'SiteSurveyController@destroy');
+    Route::get('site_survey_old/gettimes/{id}', 'SiteSurveyOldController@getTimes'); // 取得第幾次調查
+    Route::get('site_survey_old', 'SiteSurveyOldController@index');
+    Route::get('site_survey_old/create', 'SiteSurveyOldController@create');
+    Route::post('site_survey_old/', 'SiteSurveyOldController@store');
+    Route::get('site_survey_old/{id}', 'SiteSurveyOldController@show');
+    Route::get('site_survey_old/{id}/edit', 'SiteSurveyOldController@edit');
+    Route::put('site_survey_old/{id}', 'SiteSurveyOldController@update');
+    Route::delete('site_survey_old/{id}', 'SiteSurveyOldController@destroy');
 
     // 成效問卷製作
     Route::post('effectiveness_survey/getterm', 'EffectivenessSurveyController@getTerm'); // 取得期別
@@ -834,7 +873,7 @@
     Route::put('student_grade/input_grade/main_option/{main_option_id}', 'StudentGradeController@storeGrade');
     Route::put('student_grade/main_option/{id}', 'StudentGradeController@storeSubOption');
 
-    Route::group(['middleware' => ['t04tb']], function () {
+    Route::group(['middleware' => ['exisT04tb']], function () {
         Route::get('review_apply/create/{class}/{term}', 'ReviewApplyController@create');
         Route::get('review_apply/{class}/{term}', 'ReviewApplyController@index');
 
@@ -873,8 +912,10 @@
 
     Route::get('field/getData/t01tbs', 'FieldController@t01tbs');
     Route::get('field/getData/m17tbs', 'FieldController@m17tbs');
-    Route::get('field/getData/floors', 'FieldController@floors');
-    Route::get('field/getData/allFloors', 'FieldController@allFloors');
+    Route::get('field/getData/getFloors', 'FieldController@getFloors');
+    Route::get('field/getData/AllFloors', 'FieldController@AllFloors');
+    Route::get('field/getData/selectEmptyBed', 'FieldController@selectEmptyBed');
+    Route::get('field/getData/getEmptyBed', 'FieldController@getEmptyBed');
     Route::get('field/getData/t01tb/{class}', 'FieldController@t01tb');
     Route::get('field/getData/{field}', 'FieldController@getData');
 
@@ -918,6 +959,8 @@
 
     Route::get('funding/edit/{class}/{term}/{type}', 'FundingController@edit'); //
     Route::put('funding/{class}/{term}/{type}', 'FundingController@update'); //
+    Route::put('funding/updateUnitPrice', 'FundingController@updateUnitPrice');
+    Route::delete('funding/{class}/{term}/{type}', 'FundingController@delete');
 
     // 洽借場地班期資料處理
     Route::get('site_manage', 'SiteManageController@index');
@@ -1089,10 +1132,12 @@
     Route::put('classes_requirements/unitprice', 'ClassesRequirementsController@unitprice'); // 更新單價
     Route::get('classes_requirements/edit/{id}', 'ClassesRequirementsController@edit');  //修改頁
     Route::post('classes_requirements/edit', 'ClassesRequirementsController@store'); //新增
-    Route::put('classes_requirements/edit/{id}', 'ClassesRequirementsController@update'); //修改
+    Route::put('classes_requirements/edit/acccode/{id}', 'ClassesRequirementsController@acccode'); //修改開支科目
+    Route::put('classes_requirements/update/{id}', 'ClassesRequirementsController@update'); //修改
     Route::delete('classes_requirements/edit/{id}', 'ClassesRequirementsController@destroy'); //刪除
     Route::post('classes_requirements/edit/group', 'ClassesRequirementsController@groupstore'); //批次新增
     Route::delete('classes_requirements/edit/group/{id}', 'ClassesRequirementsController@groupdestroy'); //批次刪除
+    Route::put('classes_requirements/edit/groupupdate/{id}', 'ClassesRequirementsController@groupupdate'); //更新人數
     Route::post('classes_requirements/edit/stopcook', 'ClassesRequirementsController@stopcook'); //新增止伙
 
 
@@ -1103,16 +1148,19 @@
 
     Route::put('student/{des_idno}', 'StudentController@update');
     Route::put('student/resetPassword/{des_idno}', 'StudentController@resetPassword');
+    Route::put('student/modifyIdno/{des_idno}', 'StudentController@modifyIdno');
 
     Route::get('site_review/class_list', 'SiteReviewController@classList');
     Route::get('site_review/{class}/{term}', 'SiteReviewController@index');
-    Route::get('site_review/create/{class}/{term}', 'SiteReviewController@create');
+    Route::post('site_review/create/{class}/{term}', 'SiteReviewController@checkExistCreate');
+    Route::get('site_review/create/{class}/{term}/{des_idno}', 'SiteReviewController@create');
+
     Route::get('site_review/edit/{class}/{term}/{des_idno}', 'SiteReviewController@edit');
     Route::get('site_review/checkCondition/{class}/{term}', 'SiteReviewController@checkCondition');
     Route::put('site_review/filterStudent/{class}/{term}', 'SiteReviewController@filterStudent');
 
     Route::post('site_review/{class}/{term}', 'SiteReviewController@store');
-
+    Route::post('site_view/importApplyData/{class}/{term}', 'SiteReviewController@importApplyData');
     Route::put('site_review/{class}/{term}', 'SiteReviewController@updateProve');
     Route::put('site_review/{class}/{term}/{des_idno}', 'SiteReviewController@update');
 
@@ -1130,6 +1178,7 @@
     Route::get('teaching_material_statistics/edit/{id}', 'TeachingMaterialStatisticsController@edit');  //修改頁
     Route::get('teaching_material_statistics/upprice/{id}', 'TeachingMaterialStatisticsController@upprice'); //更新單價
     Route::put('teaching_material_statistics/edit/{id}', 'TeachingMaterialStatisticsController@update'); //修改
+    Route::post('teaching_material_statistics/changepay/{id}', 'TeachingMaterialStatisticsController@changepay'); //修改
     // Route::delete('teaching_material_statistics/edit/{id}', 'TeachingMaterialStatisticsController@destroy'); //刪除
 
     //教材維護
@@ -1142,6 +1191,7 @@
     Route::get('special_class_fee/class_list', 'SpecialClassFeeController@classList');
     Route::get('special_class_fee/edit/{class}/{term}', 'SpecialClassFeeController@edit');
 
+    Route::post('special_class_fee/computeFee', 'SpecialClassFeeController@computeFee');
     Route::put('special_class_fee/{class}/{term}', 'SpecialClassFeeController@update');
 
     Route::get('sponsor_agent', 'SponsorAgentController@index');
@@ -1179,6 +1229,7 @@
     // 研習實施計畫-總表
     Route::get('studyplan_all', 'StudyplanAllController@index');
     Route::post('studyplan_all/export', 'StudyplanAllController@export');
+    Route::post('studyplan_all/import', 'StudyplanAllController@import');
 
     // 研習實施計畫-形式表
     Route::get('studyplan_form', 'StudyplanFormController@index');
@@ -1212,6 +1263,9 @@
     // 各類訓練進修研習成果統計彙總表
     Route::get('each_training_all', 'EachTrainingAllController@index');
     Route::post('each_training_all/export', 'EachTrainingAllController@export');
+    Route::get('each_training_all/edit', 'EachTrainingAllController@edit');//打開自打資訊頁面
+    Route::post('each_training_all/save', 'EachTrainingAllController@save');//儲存自打資訊
+    Route::get('each_training_all/{yerly}/{month}/query', 'EachTrainingAllController@query');//查詢資料
 
     // 共同考核項目報表
     Route::get('same_assessment', 'SameAssessmentController@index');
@@ -1227,6 +1281,7 @@
 
     // 派訓-聯合派訓通知
     Route::get('sendtraining_joint', 'SendtrainingJointController@index');
+    Route::get('sendtraining_joint/setdate', 'SendtrainingJointController@setdate');//設定日期
     Route::post('sendtraining_joint/{yerly}/{month}/exportreciever', 'SendtrainingJointController@exportreciever');//匯出受訓者
     Route::post('sendtraining_joint/{yerly}/{month}/exportclass', 'SendtrainingJointController@exportclass');//匯出一覽表
 
@@ -1242,6 +1297,7 @@
     // 調訓-實施計畫
     Route::get('changetraining_plan', 'ChangetrainingPlanController@index');
     Route::post('changetraining_plan/export', 'ChangetrainingPlanController@export');
+    Route::post('changetraining_plan/import', 'ChangetrainingPlanController@import');
 
     // 課程配當
     Route::get('course_assignment', 'CourseAssignmentController@index');
@@ -1281,6 +1337,7 @@
     // 教學方法運用彙整表
     Route::get('teachway_all', 'TeachwayAllController@index');
     Route::post('teachway_all/export', 'TeachwayAllController@export');
+    Route::post('teachway_all/tways', 'TeachwayAllController@tways');//取得教法
 
     // 講座名單
     Route::get('lecture_list', 'LectureListController@index');
@@ -1295,8 +1352,11 @@
     // 講座聘函
     Route::get('lecture_mail', 'LectureMailController@index');
     Route::post('lecture_mail/export', 'LectureMailController@export');
+    Route::get('lecture_mail/{class}/{term}/mailDetail', 'LectureMailController@detail');   //Mail編輯畫面
     Route::get('lecture_mail/{class}/{term}/Mail', 'LectureMailController@Mail');       //Mail
     Route::post('lecture_mail/getTerms', 'LectureMailController@getTerms');//取得期別
+    Route::post('lecture_mail/save_mail', 'LectureMailController@save_mail');
+    Route::post('lecture_mail/mail_to_me', 'LectureMailController@mail_to_me');
 
 
     // 講座郵寄名條
@@ -1359,7 +1419,7 @@
     Route::get('hourlyfee_notice', 'HourlyfeeNoticeController@index');
     Route::post('hourlyfee_notice/export', 'HourlyfeeNoticeController@export');
     Route::post('hourlyfee_notice/getTerms', 'HourlyfeeNoticeController@getTerms');//取得期別
-    Route::post('hourlyfee_notice/send', 'HourlyfeeNoticeController@send');       //send
+    Route::get('hourlyfee_notice/{tdate}/send', 'HourlyfeeNoticeController@send');       //send
 
     // 講座鐘點費轉帳-匯款明細表
     Route::get('remittance_detail', 'RemittanceDetailController@index');
@@ -1407,6 +1467,12 @@
     Route::post('student_seat_list/getTerms', 'StudentSeatListController@getTerms');//取得期別
     Route::post('student_seat_list/getSites', 'StudentSeatListController@getSites');//取得教室
 
+    // 學員座位表
+    Route::get('student_seat_list_south', 'StudentSeatListSouthController@index');
+    Route::post('student_seat_list_south/export', 'StudentSeatListSouthController@export');
+    Route::post('student_seat_list_south/getTerms', 'StudentSeatListSouthController@getTerms');//取得期別
+    Route::post('student_seat_list_south/getSites', 'StudentSeatListSouthController@getSites');//取得教室
+
     // 學員簽到表
     Route::get('student_signin', 'StudentSigninController@index');
     Route::post('student_signin/export', 'StudentSigninController@export');
@@ -1422,11 +1488,18 @@
     Route::post('student_grade/export', 'StudentGradeController@export');
     Route::post('student_grade/getTerms', 'StudentGradeController@getTerms');//取得期別
 
+    Route::get('student_grade_rpt', 'StudentGradeRptController@index');
+    Route::post('student_grade_rpt/export', 'StudentGradeRptController@export');
+    Route::post('student_grade_rpt/getTerms', 'StudentGradeRptController@getTerms');//取得期別
+
+
     // 學員研習證書
     Route::get('student_study_certificate', 'StudentStudyCertificateController@index');
     Route::post('student_study_certificate/export', 'StudentStudyCertificateController@export');
     Route::post('student_study_certificate/getTerms', 'StudentStudyCertificateController@getTerms');//取得期別
     Route::post('student_study_certificate/getserial', 'StudentStudyCertificateController@getserial');//getserial
+    Route::get('student_study_certificate/getSignature', 'StudentStudyCertificateController@getSignature');//取得電子章單位
+
 
     // 學員通訊錄
     Route::get('student_address_book', 'StudentAddressBookController@index');
@@ -1740,10 +1813,17 @@
     // 教材交印單
     Route::get('teaching_material_form', 'TeachingMaterialFormController@index');
     Route::post('teaching_material_form/export', 'TeachingMaterialFormController@export');
+    Route::get('teaching_material_form/getMaterial', 'TeachingMaterialFormController@getMaterial');
 
     // 教材交印統計表
     Route::get('teaching_material_statistics', 'TeachingMaterialStatisticsController@index');
     Route::post('teaching_material_statistics/export', 'TeachingMaterialStatisticsController@export');
+
+
+    // 教材交印統計表
+    Route::get('teaching_material_statistics_rpt', 'TeachingMaterialStatisticsRptController@index');
+    Route::post('teaching_material_statistics_rpt/export', 'TeachingMaterialStatisticsRptController@export');
+
 
     // 人數統計表
     Route::get('people_statistics', 'PeopleStatisticsController@index');
@@ -1778,9 +1858,9 @@
 
     //D5 訓期一覽表
     Route::get('training_period_list', 'TrainingPeriodList@index');
-    Route::post('training_period_list/export', 'TrainingPeriodList@export');
+    Route::get('training_period_list/export', 'TrainingPeriodList@export');
     // Route::post('training_period_list/getTerms', 'TrainingPeriodList@getTerms');//get terms
-    
+
     //D6 班次分配表
     Route::get('class_distribution', 'ClassDistribution@index');
     Route::post('class_distribution/export', 'ClassDistribution@export');
@@ -1800,7 +1880,23 @@
     //F3 調訓函
     Route::get('transfer_training_letter', 'TransferTrainingLetter@index');
     Route::post('transfer_training_letter/export', 'TransferTrainingLetter@export');
-    Route::post('training_period_list/getTerms', 'TrainingPeriodList@getTerms');//get terms
+    Route::post('transfer_training_letter/getTerms', 'TransferTrainingLetter@getTerms');//get terms
+    Route::post('transfer_training_letter/mail', 'TransferTrainingLetter@mail');
+    Route::post('transfer_training_letter/mailtome', 'TransferTrainingLetter@mailtome');
+    Route::post('transfer_training_letter/savelist', 'TransferTrainingLetter@savelist');
+    Route::get('transfer_training_letter/list/{id}', 'TransferTrainingLetter@list');
+    Route::get('transfer_training_letter/detail', 'TransferTrainingLetter@detail');
+    Route::post('transfer_training_letter/getContent', 'TransferTrainingLetter@getContent');
+
+    //E-Mail線上問卷填答通知
+    // Route::get('notice_emai', 'NoticeEmailController@index');
+    // Route::get('notice_emai/detail', 'NoticeEmailController@detail'); means index here
+    // Route::post('notice_emai/save_mail', 'NoticeEmailController@save_mail');
+    // Route::post('notice_emai/save_list', 'NoticeEmailController@save_list');
+    // Route::post('notice_emai/mail_to_me', 'NoticeEmailController@mail_to_me');
+    // Route::get('notice_emai/list/{id}', 'NoticeEmailController@list');
+
+
 
     //F9 班期計畫表
     Route::get('class_term_plan', 'ClassTermPlan@index');
@@ -1813,9 +1909,9 @@
 
     //F11 教室使用一覽表
     Route::get('classroom_usage_list', 'ClassroomUsageList@index');
-    Route::post('classroom_usage_list/export', 'ClassroomUsageList@export');
-    Route::post('classroom_usage_list/getTerms', 'ClassroomUsageList@getTerms');//get terms
-    Route::post('classroom_usage_list/getSites', 'ClassroomUsageList@getSites');//取得教室
+    Route::get('classroom_usage_list/export', 'ClassroomUsageList@export');
+    // Route::post('classroom_usage_list/getTerms', 'ClassroomUsageList@getTerms');//get terms
+    // Route::post('classroom_usage_list/getSites', 'ClassroomUsageList@getSites');//取得教室
 
     //F12 辦理流程期限表
     Route::get('process_timetable', 'ProcessTimetable@index');
@@ -1824,11 +1920,12 @@
     //F15 委訓費用明細表
     Route::get('delegate_training_cost', 'DelegateTrainingCost@index');
     Route::post('delegate_training_cost/export', 'DelegateTrainingCost@export');
+    Route::get('delegate_training_cost/export', 'DelegateTrainingCost@export');
     Route::post('delegate_training_cost/getTerms', 'DelegateTrainingCost@getTerms');//get terms
 
     //F16 委訓經費各單位分配額度表
     Route::get('delegate_training_cost_quota', 'DelegateTrainingCostQuota@index');
-    Route::post('delegate_training_cost_quota/export', 'DelegateTrainingCostQuota@export');
+    Route::get('delegate_training_cost_quota/export', 'DelegateTrainingCostQuota@export');
     Route::post('delegate_training_cost_quota/getTerms', 'DelegateTrainingCostQuota@getTerms');//get terms
 
     //F18 教法運用統計圖表
@@ -1858,6 +1955,7 @@
 
     //H21 接送講座紀錄結算表
     Route::get('lecture_pickup_record', 'LecturePickupRecord@index');
+    Route::get('lecture_pickup_record/getClass', 'LecturePickupRecord@getClass');
     Route::post('lecture_pickup_record/export', 'LecturePickupRecord@export');
 
     //H22 接送講座紀錄結算總表
@@ -1951,7 +2049,7 @@
     //N32 場地使用成效統計表
     Route::get('site_usage_statics', 'SiteUsageStatics@index');
     Route::post('site_usage_statics/export', 'SiteUsageStatics@export');
-    
+
     //N33 場地借用維護費收入明細統計表
     Route::get('site_using_maintain_datail', 'SiteUsingMaintainDatail@index');
     Route::post('site_using_maintain_datail/export', 'SiteUsingMaintainDatail@export');
@@ -1967,5 +2065,53 @@
     //N36 場地借用概況表
     Route::get('site_using_overview', 'SiteUsingOverview@index');
     Route::post('site_using_overview/export', 'SiteUsingOverview@export');
+
+    Route::get('classCalendar', 'ClassCalendarController@index');
+    Route::get('classCalendar/export', 'ClassCalendarController@export');
+
+    Route::get('siteGlance', 'SiteGlanceController@index');
+    Route::get('siteGlance/export', 'SiteGlanceController@export');
+
+    Route::get('t04tbSelectModal', 'SelectModalController@t04tb');
+    Route::get('t01tbSelectModal', 'SelectModalController@t01tb');
+    Route::get('teacherSelectModal', 'SelectModalController@teacher');
+
+    Route::get('place_nantou', 'PlaceNantouController@classroom');
+    Route::get('place_nantou/create', 'PlaceNantouController@create');
+    Route::post('place_nantou', 'PlaceNantouController@store');
+    Route::get('place_nantou/edit/{roomno}', 'PlaceNantouController@edit');
+    Route::put('place_nantou/{roomno}', 'PlaceNantouController@update');
+
+
+    Route::get('place_nantou_location', 'PlaceNantouLocationController@index');
+    Route::get('place_nantou_location/create', 'PlaceNantouLocationController@create');
+    Route::post('place_nantou_location', 'PlaceNantouLocationController@store');
+    Route::get('place_nantou_location/edit/{code}', 'PlaceNantouLocationController@edit');
+    Route::put('place_nantou_location/{code}', 'PlaceNantouLocationController@update');
+
+
+    Route::get('place_nantou_classroomcls', 'PlaceNantouClassroomclsController@classroom');
+    Route::get('place_nantou_classroomcls/create', 'PlaceNantouClassroomclsController@create');
+    Route::post('place_nantou_classroomcls', 'PlaceNantouClassroomclsController@store');
+    Route::get('place_nantou_classroomcls/edit/{croomclsno}', 'PlaceNantouClassroomclsController@edit');
+    Route::put('place_nantou_classroomcls/{croomclsno}', 'PlaceNantouClassroomclsController@update');
+
+    Route::get('place_nantou_classroomcls/feeSetting/{type}/{croomclsno}', 'PlaceNantouClassroomclsController@editFeeSetting');
+    Route::post('place_nantou_classroomcls/feeSetting/{type}/{croomclsno}', 'PlaceNantouClassroomclsController@updateFeeSetting');
+
+    Route::get('nantou_bedroom', 'NantouBedRoomController@index');
+    Route::get('nantou_bedroom/create', 'NantouBedRoomController@create');
+    Route::post('nantou_bedroom', 'NantouBedRoomController@store');
+    Route::get('nantou_bedroom/edit/{id}', 'NantouBedRoomController@edit');
+    Route::put('nantou_bedroom/{id}', 'NantouBedRoomController@update');
+
+    Route::get('nantou_floor', 'NantouFloorController@index');
+    Route::get('nantou_floor/create', 'NantouFloorController@create');
+    Route::post('nantou_floor', 'NantouFloorController@store');
+    Route::get('nantou_floor/edit/{id}', 'NantouFloorController@edit');
+    Route::put('nantou_floor/{id}', 'NantouFloorController@update');
+
+    Route::get('yearly_channel', 'YearlyChannelController@index');
+    Route::get('yearly_channel/export', 'YearlyChannelController@export');
 
 });

@@ -2,33 +2,59 @@
 <center>
     <br>
             <table style="border-collapse:collapse;" width="420">
-                <tr>
+               <!--  <tr>
                     <td align="center" >
                         鐘點費入帳通知<br><br>
                     </td>
-                </tr>
+                </tr> -->
                 <tr>
                     <td>
                     
-                        1.  講座姓名：{{$data['cname']}} <br>
-                        2.  上課班期：{{$data['class_name_term']}} <br>
-                        3.  授課時間：{{$data['period']}}{{$data['lecthr']}} <br>
-                        4.  鐘點費：{{$data['lectamt']}}元 <br>
-                        5.  稿費：{{$data['noteamt']}}元 <br>
-                        6.  講演費：{{$data['speakamt']}}元 <br>
-                        7.  交通費：{{$data['tratot']}}元 <br>
-                        8.  扣取補充保險費：{{$data['insuretot']}}元 <br>
-                        9.  扣繳稅額：{{$data['deductamt']}}元 <br>
-                        10. 劃撥郵局或金融機構代理：{{$data['totalpay']}} <br>
-                        11. 匯款日期：{{$data['tdate']}} <br><br>
+                        授課期間：{{$data['period']}} <br><br><br>
+                        上課班期名稱：{{$data['class_name_term']}} <br><br><br>
+                        授課時間：{{$data['period']}}{{$data['lecthr']}} <br><br><br>
+                        鐘點費：{{$data['lectamt']}}元 <br><br><br>
+                        交通費：{{$data['tratot']}}元 <br><br><br>
+
+                        <?php if($data['otheramt'] > 0) {?>
+                        住宿費：{{$data['otheramt']}}元 <br><br><br>
+                        <?php } ?>
+
+                        <?php if($data['review_total'] > 0) {?>
+                        評閱費：：{{$data['review_total']}}元 <br><br><br>
+                        <?php } ?>
+
+                        <?php if($data['other_salary'] > 0) {?>
+                        其他薪資所得：{{$data['other_salary']}}元 <br><br><br>
+                        <?php } ?>
+
+                        <?php if($data['insuretot'] > 0) {?>
+                        扣取補充保險費：{{$data['insuretot']}}元 <br><br><br>
+                        <?php } ?>
+
+                        <?php if($data['deductamt'] > 0) {?>
+                        扣繳稅額：{{$data['deductamt']}}元 <br><br><br>
+                        <?php } ?>
+
+                        劃撥郵局或金融機構代理：{{$data['post_bank']}} <br><br><br>
+                        匯款日期：{{$data['tdate']}} <br><br><br>
 
                         
                     </td>
                 </tr>
                 <tr>
                     <td align="right" >
-                    行政院人事行政總處公務人力發展學院　　敬啟<br>
-                    {{$data['ndate']}}<br>
+                    行政院人事行政總處公務人力發展學院　　敬啟<br><br><br><br>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                    本通知係由系統自動發送，講座如不願意再收到本學院<br><br><br>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                    入帳通知訊息，請直接回覆此郵件，爾後將不再發送。<br><br><br>
                     </td>
                 </tr>
             </table>

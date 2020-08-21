@@ -69,6 +69,7 @@ class WebBookPlaceController extends Controller
 			$condition["status"]='N';
 			$result=$this->wbs->getList($condition);
 		}
+
         return view("/admin/webbookplace/list",compact("result","condition"));
     }
 
@@ -98,8 +99,11 @@ class WebBookPlaceController extends Controller
 
     public function edit(Request $request,$applyno)
     {
+
 		$place=$this->wbs->get_edu_loanplacelst($applyno);
+
 		$discount=$this->wbs->getArg();
+
 		$mode='money';
 		$discount_data=$this->wbs->getBookRoomList($applyno,$mode);
 		$discount_data=$discount_data->toArray();
@@ -141,6 +145,7 @@ class WebBookPlaceController extends Controller
 	public function loanplace_store(WebBookPlaceRequest $request)
 	{
 		$input=$request->input();
+
 		// var_dump($input);exit();
 		if(!isset($input["is_need_receipt"])&&$input["receiptname"]==''){
 			return redirect()->route("webbook.edit.get",$input["applyno"])->with("result",0)->with("message","收據抬頭必填，若不需要請勾'不需要收據'");

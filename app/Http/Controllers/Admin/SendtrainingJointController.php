@@ -8,11 +8,18 @@ use DB;
 use \PhpOffice\PhpWord\PhpWord;
 use \PhpOffice\PhpWord\IOFactory;
 
+use App\Services\SignupService;
+use App\Services\Term_processService;
+use App\Models\T04tb;
+use App\Models\T51tb;
+
 class SendtrainingJointController extends Controller
 {
-    public function __construct(User_groupService $user_groupService)
+    public function __construct(User_groupService $user_groupService,SignupService $signupService, Term_processService $term_processService)
     {
         $this->user_groupService = $user_groupService;
+        $this->signupService = $signupService;
+        $this->term_processService = $term_processService;
         //檢查權限
         $this->middleware(function($request, $next){
             $user_data = \Auth::user();
@@ -54,7 +61,6 @@ class SendtrainingJointController extends Controller
          return view('admin/sendtraining_joint/list', compact('data', 'queryData','result'));
 
     }
-
 
     public function exportreciever($yerly,$month)
     {
@@ -108,7 +114,6 @@ class SendtrainingJointController extends Controller
             };
             return response()->stream($callback, 200, $headers);
     }
-
 
     public function exportclass(Request $request,$yerly,$month)
     {
@@ -194,7 +199,75 @@ class SendtrainingJointController extends Controller
         //$doctype:1.ooxml 2.odf
         //$filename:filename 
 
+    }
 
+    public function edit(Request $request, $class, $term)
+    {
+        // 取得班別
+        $queryData['class'] = $class;
+        // 取得期別
+        $queryData['term'] = $term;
+        // 取得列表資料
+        $data = $this->signupService->getSignupList($queryData);
+        // dd($data);
+        // 測試用資料
+        // $data = array(
+        //     json_decode('{"\u6a5f\u95dc\u4ee3\u78bc":"A00000000A","\u6a5f\u95dc\u540d\u7a31":"\u884c\u653f\u9662","\u5e74\u5ea6\u5206\u914d\u4eba\u6578":1,"\u7dda\u4e0a\u5206\u914d\u4eba\u6578":1}'),
+        //     json_decode('{"\u6a5f\u95dc\u4ee3\u78bc":"301000000A","\u6a5f\u95dc\u540d\u7a31":"\u5167\u653f\u90e8","\u5e74\u5ea6\u5206\u914d\u4eba\u6578":2,"\u7dda\u4e0a\u5206\u914d\u4eba\u6578":2}'),
+        //     json_decode('{"\u6a5f\u95dc\u4ee3\u78bc":"303000000B","\u6a5f\u95dc\u540d\u7a31":"\u5916\u4ea4\u90e8","\u5e74\u5ea6\u5206\u914d\u4eba\u6578":0,"\u7dda\u4e0a\u5206\u914d\u4eba\u6578":0}'),
+        //     json_decode('{"\u6a5f\u95dc\u4ee3\u78bc":"305000000C","\u6a5f\u95dc\u540d\u7a31":"\u570b\u9632\u90e8","\u5e74\u5ea6\u5206\u914d\u4eba\u6578":1,"\u7dda\u4e0a\u5206\u914d\u4eba\u6578":1}'),
+        //     json_decode('{"\u6a5f\u95dc\u4ee3\u78bc":"307000000D","\u6a5f\u95dc\u540d\u7a31":"\u8ca1\u653f\u90e8","\u5e74\u5ea6\u5206\u914d\u4eba\u6578":6,"\u7dda\u4e0a\u5206\u914d\u4eba\u6578":6}'),
+        // );
+        // $t01tb = $this->signupService->getT01tb($class);
+        // 取得派訓日期
+        $dateData = $this->signupService->getDateData($queryData);
+        // 取得課程列表
+        // $classList = $this->signupService->getClassList($queryData);
+        $t04tb_info = [
+            "class" => $class,
+            "term" => $term
+        ];
+        $t04tb = $this->signupService->getT04tb($t04tb_info);
+        $t01tb = $t04tb->t01tb;
+        $online_apply_organs = $t04tb->online_apply_organs;
+
+        return view('admin/signup/form', compact('data', 'queryData', 'classList', 'dateData', 't04tb','online_apply_organs'));
+    }
+
+    public function setdate(Request $request)
+    {
+
+        // 取得班別,期數
+        $classterm =explode("_", $request->input('classterm'));
+
+        $class = $classterm[0];
+        $term = $classterm[1];
+
+        //班務流程凍結
+        $freeze = $this->term_processService->getFreeze('signup_edit_type1', $class, $term);
+        if($freeze == 'Y'){
+            return back()->with('result', 0)->with('message', '凍結中無法修改');
+        }
+        $freeze = $this->term_processService->getFreeze('signup_edit_type2', $class, $term);
+        if($freeze == 'Y'){
+            return back()->with('result', 0)->with('message', '凍結中無法修改');
+        }
+
+        // 取得日期
+        $data = $request->only([
+            'pubsdate',
+            'pubedate'
+        ]);
+
+        // 更新T04tb
+        T04tb::where('class', $class)->where('term', $term)->update($data);
+        // 更新T51tb
+        T51tb::where('class', $class)->where('term', $term)->update(['pubsdate' => $data['pubsdate'], 'pubedate' => $data['pubedate']]);
+
+        $value = is_array($request->input('value'))? $request->input('value') : array();
+        $this->signupService->updateT51tb($class, $term, $data['pubsdate'], $data['pubedate'], $value);
+
+        return back()->with('result', '1')->with('message', '儲存成功!');
     }
 
 }

@@ -351,7 +351,15 @@ class MethodRepository
     }
 
     public function getMaterialListNew($queryData = []){
-        $query = T49tb::select(DB::raw('SUBSTR(t49tb.class, 1, 3) as year'),'t49tb.serno','t49tb.material','t49tb.total','t49tb.paiddate','t49tb.kind','t49tb.applicant');
+        $query = T49tb::select(DB::raw('SUBSTR(t49tb.class, 1, 3) as year'),'t49tb.serno','t49tb.material','t49tb.total','t49tb.paiddate','t49tb.kind','t49tb.applicant','m09tb.username','t01tb.name','t49tb.term');
+        $query->leftJoin('m09tb', function($join)
+        {
+            $join->on('t49tb.applicant', '=', 'm09tb.userid');
+        });
+        $query->leftJoin('t01tb', function($join)
+        {
+            $join->on('t49tb.class', '=', 't01tb.class');
+        });
         // 預設排序
         $query->orderBy('serno', 'desc');
         // $yerly = substr($queryData['class'],0,3);

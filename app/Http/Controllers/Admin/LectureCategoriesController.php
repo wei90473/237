@@ -45,7 +45,7 @@ class LectureCategoriesController extends Controller
 
     public function export(Request $request){
         $category=$request->input('category');
-        $expertise=$request->input('expertise');
+        $expertise=str_replace("'","", $request->input('expertise'));
         $condition=$request->input('condition'); //1. category 2. expertise
 
         $sdatetw=$request->input('sdatetw');
@@ -102,7 +102,7 @@ class LectureCategoriesController extends Controller
             }
 
         }else{
-            $sql2."FROM s01tb
+            $sql2.="FROM s01tb
             INNER JOIN m16tb ON s01tb.code=m16tb.specialty
             INNER JOIN t09tb ON m16tb.idno=t09tb.idno
             INNER  JOIN t06tb ON t09tb.class=t06tb.class
@@ -124,7 +124,6 @@ class LectureCategoriesController extends Controller
             $result="此條件查無資料，請重新查詢。";
             return view('admin/lecture_categories/list',compact('result','CatArr'));
         }
-
 
         $data = $temp;
         $datakeys=array_keys((array)$data);
@@ -148,7 +147,7 @@ class LectureCategoriesController extends Controller
             $templateProcessor->setValue('sat#'.strval($i+1),$data[$i]["okrate"]);
         }
         $templateProcessor->setValue('date',$sdatetmp[0]."/".$sdatetmp[1]."/".$sdatetmp[2]."~".$edate=$edatetmp[0]."/".$edatetmp[1]."/".$edatetmp[2]);
-        $templateProcessor->setValue('type',$typename[0]["name"]);
+        $templateProcessor->setValue('type',isset($typename[0]["name"])?$typename[0]["name"]:"");
         $RptBasic = new \App\Rptlib\RptBasic();
         $RptBasic->exportfile($templateProcessor,"1",$request->input('doctype'),"講座一覽表-類別");
         //$obj: entity of file

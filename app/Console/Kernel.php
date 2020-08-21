@@ -13,6 +13,7 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
+        Commands\sysEmail::class,
         //
     ];
 
@@ -24,8 +25,11 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')
-        //          ->hourly();
+    	//班務流程通知MAIL
+        $schedule->command('command:sys_mail')
+                 ->daily();
+        //          ->daily();
+        //          * * * * * cd /path-to-your-project && php artisan schedule:run >> /dev/null 2>&1
     }
 
     /**

@@ -65,7 +65,7 @@ class ReviewApplyService
     {
         return $this->t01tbRepository->getData(null, "class, name");
     }
-    
+
     public function getT27tbs($t04tb_info, $queryData)
     {
         $queryData = array_merge($queryData, $t04tb_info);
@@ -93,7 +93,7 @@ class ReviewApplyService
     public function getM17tbs()
     {
         return $this->m17tbRepository->getData();
-    }    
+    }
 
     public function deleteT27tb($t27tb_info)
     {
@@ -152,9 +152,9 @@ class ReviewApplyService
     {
         $copyed_t04tb = $this->t04tbRepository->find($copy_info['copyed']);
         $copyed_t13tbs = $copyed_t04tb->t13tbs()->where('status', '=', 1)->get()->pluck('idno')->toArray();
-    
+
         $copy_purpose_t04tb = $this->t04tbRepository->find($copy_info['copy_purpose']);
-        $copy_purpose_t27tbs = $copy_purpose_t04tb->t27tbs->pluck('idno')->toArray(); 
+        $copy_purpose_t27tbs = $copy_purpose_t04tb->t27tbs->pluck('idno')->toArray();
 
         return !(count(array_diff($copy_purpose_t27tbs, $copyed_t13tbs)) == count($copy_purpose_t27tbs));
     }
@@ -169,7 +169,7 @@ class ReviewApplyService
         DB::beginTransaction();
 
         try {
-            
+
             if ($copy_info['copy_mode'] == 'clear_and_copy'){
                 $this->t13tbRepository->delete($copy_info['copy_purpose']);
             }
@@ -180,17 +180,17 @@ class ReviewApplyService
                 $new_t27tb['crtdate'] = $now->format('Y-m-d H:i:s');
                 $new_t27tb['class'] = $copy_info['copy_purpose']['class'];
                 $new_t27tb['term'] = $copy_info['copy_purpose']['term'];
-                
+
                 if (isset($t27tbs[$new_t27tb['idno']]) && $copy_info['over_data'] == 1){
                     $t27tbs[$new_t27tb['idno']]->update($new_t27tb);
                 }else{
-                    $new_t27tb['prove'] = 'N'; 
+                    $new_t27tb['prove'] = 'N';
                     $this->t27tbRepository->insert($new_t27tb);
                 }
             }
 
             // $copy_datas = $this->t27tbRepository->getCopyData($copy_info, $repeat_idnos);
-            
+
 
             // foreach($copy_datas as $t27tb){
             //     $t27tb->class = $copy_info['copy_purpose']['class'];
@@ -210,11 +210,11 @@ class ReviewApplyService
             var_dump($e->getMessage());
             die;
             // something went wrong
-        }      
+        }
 
         return $status;
     }
-    
+
 
     public function review($class_info, $prove){
         $shift_result = [];
@@ -236,7 +236,7 @@ class ReviewApplyService
                     }
                 }
             }
-            
+
             if (!empty($success)){
                 $this->t27tbRepository->review($class_info, $success, 'S');
             }
@@ -248,16 +248,16 @@ class ReviewApplyService
             DB::commit();
             // DB::rollback();
             return [
-                'status' => true, 
+                'status' => true,
                 'result' => $shift_result
             ];
         }catch (\Exception $e) {
             DB::rollback();
             var_dump($e->getMessage());
-            die;                
+            die;
             return false;
 
-        }                 
+        }
 
     }
 
@@ -268,14 +268,14 @@ class ReviewApplyService
             'class' => $t04tb->class,
             'term' => $t04tb->term
         ];
-        
+
         $validate = $this->t27tbValidate($class_info, $idno);
 
         if ($validate['status'] == false){
             return $validate;
         }
         // 取得該學員[m02tb]
-        
+
         $t01tb = $t04tb->t01tb;
         $t27tb = $validate['t27tb'];
         $m02tb = $validate['m02tb'];
@@ -298,8 +298,8 @@ class ReviewApplyService
             'nonlocal' => $t27tb->nonlocal,                         // 遠道者
             'vegan' => $t27tb->vegan,                               // 素食
             'fee' => 0
-        ]; 
-        
+        ];
+
         if($t01tb->type == '13'){ //班別性質(游於藝講堂)
             $new_t13tb['fee'] = 0;
         }else{
@@ -325,7 +325,7 @@ class ReviewApplyService
             'idno' => $t27tb->idno,
             'lname' => $t27tb->lname,
             'fname' => $t27tb->fname,
-            'cname' => $t27tb->lname.$t27tb->fname,
+            'cname' => $t27tb->cname,
             'sex' => $t27tb->sex,
             'birth' => $t27tb->birth,
             'organ' => $t27tb->organ,
@@ -364,7 +364,7 @@ class ReviewApplyService
         if (empty($m02tb)){
             $this->m02tbRepository->insert($new_m02tb);
         }else{
-            $this->m02tbRepository->update(['idno' => $idno], $new_m02tb);          
+            $this->m02tbRepository->update(['idno' => $idno], $new_m02tb);
         }
 
         $new_t40tb = [
@@ -388,17 +388,17 @@ class ReviewApplyService
         if (empty($t40tb)){
             $this->t40tbRepository->insert($new_t40tb);
         }else{
-            $this->t40tbRepository->update($t27tb_info, $new_t40tb);  
-        }   
+            $this->t40tbRepository->update($t27tb_info, $new_t40tb);
+        }
 
         return ['status' => true, 'message' => "轉檔成功"];
-    }        
+    }
 
     public function t27tbValidate($class_info, $idno)
     {
         $t27tb_info = $class_info;
         $t27tb_info['idno'] = $idno;
-        
+
         $t27tb = $this->t27tbRepository->find($t27tb_info);
 
         if (empty($t27tb)){
@@ -426,7 +426,7 @@ class ReviewApplyService
         //     if(!empty($t40tb->oldterm)){
         //         return ['status' => false, 'message' => "【{$m02tb->lname}{$m02tb->fname}】作過【調期】!"];
         //     }
-        // }      
+        // }
 
         return [
             'status' => true,
@@ -434,11 +434,11 @@ class ReviewApplyService
             't13tb' => $t13tb,
             // 't40tb' => $t40tb,
             't27tb' => $t27tb
-        ];  
+        ];
     }
 
     public function t27tbsValidate($t04tb_info, $idnos, $apply_datas){
-        
+
         $condition = [
             'field' => 'idno',
             'data' => $idnos
@@ -454,7 +454,7 @@ class ReviewApplyService
         foreach ($idnos as $idno){
 
             $m02tb = (empty($m02tbs[$idno])) ? null : $m02tbs[$idno];
-            
+
             $errors[$idno] = "";
 
             if (!empty($m02tb)){
@@ -463,26 +463,26 @@ class ReviewApplyService
                     $errors[$idno] .= "【m02tb 學員基本資料檔】中已有{$m02tb->lname}{$m02tb->fname}與其身分證號相同;";
                 }
             }
-    
+
             $t13tb = (empty($t13tbs[$idno])) ? null : $t13tbs[$idno] ;
             if (!empty($t13tb)){
                 if (!empty($t13tb->serno)){
                     $errors[$idno] .= "【t13tb 班別學員資料檔】中已有【{$m02tb->lname}{$m02tb->fname}】收據編號：{$t13tb->serno};";
                 }
             }
-    
+
             //【 t40tb 委辦班別經費支付檔】
             $t40tb = (empty($t13tbs[$idno])) ? null : $t13tbs[$idno] ;
             if (!empty($t40tb)){
                 if(!empty($t40tb->oldterm)){
                     $errors[$idno] .= "【{$m02tb->lname}{$m02tb->fname}】作過【調期】!;";
                 }
-            }    
+            }
 
             if (empty($errors[$idno])){
                 unset($errors[$idno]);
             }
-            
+
         }
 
         return $errors;
@@ -497,12 +497,12 @@ class ReviewApplyService
             $format = array_keys($this->getGovernmentEmployeeFormat());
         }elseif ($identity == 2){
             $format = array_keys($this->getGeneralPeopleFormat());
-        }  
+        }
 
         foreach($apply_datas as $key =>$datas)
         {
             if ($key < 7 || empty(array_filter($datas))) continue;
-            
+
             foreach ($datas as $index => $data){
                 if (isset($format[$index])){
                     $data = trim($data);
@@ -515,9 +515,9 @@ class ReviewApplyService
             }
             $format_datas[$key]['identity'] = $identity;
         }
-        
+
         return $format_datas;
-    
+
     }
 
     /*
@@ -539,7 +539,7 @@ class ReviewApplyService
             "rank" => 'MT',            // 官職等
             "offaddr1" => 'm02tb',     // 機關縣市
             "offaddr2" => 'm02tb',     // 機關地址
-            "offzip" => 'm02tb',       // 機關郵遞區號 
+            "offzip" => 'm02tb',       // 機關郵遞區號
             "offtela" => 'm02tb',     // 機關電話區碼 (電話(公一)區碼)
             "offtelb" => 'm02tb',     // 機關電話 (電話(公一))
             "offtelc" => 'm02tb',     // 機關電話分機 (電話(公一)分機)
@@ -553,13 +553,13 @@ class ReviewApplyService
             "homtelb" => 'm02tb',      // 住家電話
             "mobiltel" => 'm02tb',     // 行動電話
             "dorm" => 't27tb',         // 住宿
-            "vegan" => 't27tb',        // 素食  
+            "vegan" => 't27tb',        // 素食
             "handicap" => 'm02tb',     // 行動不便
             "extradorm" => 't27tb',    // 提前住宿
             "nonlocal" => 't27tb',     // 遠道者
             "offname" => 't27tb',      // 人事單位姓名
             "offtel" => 't27tb',       // 人事單位電話
-            "offemail" => 't27tb',     // 人事單位信箱                
+            "offemail" => 't27tb',     // 人事單位信箱
             "chief" => 'm02tb',        // 主管
             "personnel" => 'm02tb',    // 人事
             "aborigine" => 'm02tb',    // 原住民
@@ -572,19 +572,19 @@ class ReviewApplyService
         return [
             "idno" => 'MT',            // 身分證字號
             "cname" => 'm02tb',        // 姓名
-            "sex" => 'm02tb',          // 性別          
-            "mobiltel" => 'm02tb',     // 聯絡電話            
+            "sex" => 'm02tb',          // 性別
+            "mobiltel" => 'm02tb',     // 聯絡電話
             "email" => 'm02tb',        // 學員 email
-            "vegan" => 't13tb',        // 素食  
-            "handicap" => 'm02tb',     // 行動不便            
+            "vegan" => 't13tb',        // 素食
+            "handicap" => 'm02tb',     // 行動不便
             "identity" => 'm02tb'
         ];
     }
 
     public function validateImport($apply_datas, $identity)
     {
-        // 驗證有無重複身分證 
-        $idnos = collect($apply_datas)->pluck('idno')->toArray(); 
+        // 驗證有無重複身分證
+        $idnos = collect($apply_datas)->pluck('idno')->toArray();
         $idno_repeat = array_unique(array_diff_assoc($idnos, array_unique($idnos)));
         $error_message = "";
         if (!empty($idno_repeat)){
@@ -594,13 +594,13 @@ class ReviewApplyService
             }
             return $error_message;
         }
-        
+
         // 驗證資料是否正確
         if ($identity == 1){
             $errors = $this->validateGovernmentEmployeeFormat($apply_datas);
         }elseif ($identity == 2){
             $errors = $this->validateGeneralPeopleFormat($apply_datas);
-        }  
+        }
 
         foreach ($errors as $key => $error){
             if (!empty($error->toArray())){
@@ -626,7 +626,7 @@ class ReviewApplyService
         $ecodes = join(",", array_keys($t13tb_fields['ecode']));
 
         $enrollorgs = collect($apply_datas)->pluck('enrollid');
-        
+
         $m17tbs = $this->m17tbRepository->getByEnrollorgs($enrollorgs)->keyBy('enrollorg');
 
         foreach ($apply_datas as $key => $apply_data){
@@ -652,18 +652,18 @@ class ReviewApplyService
 
             if (!isset($m17tbs[$apply_data['enrollid']])){
                 $validator->errors()->add('exsit', '服務機關代碼 不存在');
-            }       
+            }
 
             if(isset($m02tbs[$apply_data['idno']]) && $m02tbs[$apply_data['idno']]->cname != $apply_data['cname']){
                 $validator->errors()->add('cname', '學員身分證已存在但姓名不同');
             }
 
-            $errors[$key] = $validator->errors();         
+            $errors[$key] = $validator->errors();
         }
 
         return $errors;
-    }   
-    
+    }
+
     public function validateGeneralPeopleFormat($apply_datas)
     {
         $idnos = collect($apply_datas)->pluck('idno')->filter();
@@ -681,7 +681,7 @@ class ReviewApplyService
                 'cname.required' => "姓名 不可為空",
                 'sex.required' => '性別 不可為空',
                 'vegan.in' => '素食 異常',
-                "handicap.in" => '行動不便 異常'                        
+                "handicap.in" => '行動不便 異常'
             ]);
 
             if (isset($m02tbs[$apply_data['idno']]) && $m02tbs[$apply_data['idno']]->identity <> $apply_data['identity']){
@@ -689,10 +689,10 @@ class ReviewApplyService
             }
 
             $errors[$key] = $validator->errors();
-            
+
         }
         return $errors;
-    }    
+    }
 
     public function splitApplyData($apply_datas, $identity, $version)
     {
@@ -701,7 +701,7 @@ class ReviewApplyService
             $format = $this->getGovernmentEmployeeFormat($version);
         }elseif ($identity == 2){
             $format = $this->getGeneralPeopleFormat();
-        }             
+        }
 
         foreach ($apply_datas as $key => $apply_data){
             foreach ($apply_data as $field => $value){
@@ -712,11 +712,11 @@ class ReviewApplyService
                 }else{
                     $new_apply_datas[$key][$format[$field]][$field] = $value;
                 }
-                
+
             }
         }
         return $new_apply_datas;
-    }    
+    }
 
     public function importApplyData($t04tb_info, $apply_datas)
     {
@@ -736,9 +736,9 @@ class ReviewApplyService
                     $this->t27tbRepository->insert($apply_data);
                 }else{
                     $t27tb_info = $t04tb_info;
-                    $t27tb_info['idno'] = $apply_data['idno'];                
+                    $t27tb_info['idno'] = $apply_data['idno'];
                     $this->t27tbRepository->update($t27tb_info, $apply_data);
-                }         
+                }
             }
 
             DB::commit();
@@ -746,7 +746,7 @@ class ReviewApplyService
         } catch (\Exception $e) {
             DB::rollback();
             var_dump($e->getMessage());
-            die;            
+            die;
             return false;
         }
 

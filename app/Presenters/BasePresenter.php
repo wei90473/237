@@ -3,11 +3,15 @@
 namespace App\Presenters;
 
 use Session;
-use App\Models\S01tb;
 use App\Models\Classes;
 use App\Models\DemandDistribution;
 use App\Models\T01tb;
+use App\Models\T04tb;
+use App\Models\T38tb;
+use App\Models\S01tb;
 use App\Models\S02tb;
+use App\Models\m09tb;
+use App\Models\method;
 use DB;
 
 
@@ -115,11 +119,22 @@ class BasePresenter
      */
     public function getMaxClass()
     {
-        $data = T01tb::where('type', '!=', '13')->max('class');
-
+        $yerly = date('Y')-1911;
+        $data = T01tb::where('type', '!=', '13')->where('yerly',$yerly)->max('class');
         return isset($data)? mb_substr($data, 3, 3) + 1 : 1;
     }
-
+    /**
+     * 取得班別編號流水號
+     *
+     * @return int|string
+     */
+    public function getMaxSitClass()
+    {
+        $yerly = date('Y')-1911;
+        $data = T01tb::where('class','like', $yerly.'%')->where('classtype','<>','')->max('class');
+        $data =  isset($data)? substr($data, 4,2) + 1: 1;
+        return str_pad($data,2,'0',STR_PAD_LEFT);
+    }    
     /**
      * 執行撈取的sql
      *
@@ -168,4 +183,51 @@ class BasePresenter
 
         return $result;
     }
+    /**
+     * 取得班務人員
+     *
+     * @return mixed
+     */
+    public function getSponsor(){
+        $query = T04tb::select('t04tb.sponsor', 'm09tb.username');
+        $query->join('m09tb', function($join)
+        {
+            $join->on('m09tb.userid', '=', 't04tb.sponsor');
+        });
+        $results = $query->where('sponsor', '<>', '')->distinct()->get()->toArray();
+        $sponsor = array();
+        foreach($results as $row){
+            $sponsor[$row['sponsor']] = $row['username'];
+        }
+
+        return $sponsor;
+    }
+    /**
+     * 取得會議編號流水號
+     *
+     * @return int|string
+     */
+    public function getMaxSerno(){
+        $day = (date('Y')-1911 ).date('md');
+        $day = substr($day, 1);
+        $Serno = T38tb::where('meet','like', '%'.$day)->max('serno');
+        $Serno =  isset($Serno)? $Serno+1: '01';
+        return str_pad($Serno,2,'0',STR_PAD_LEFT);
+    } 
+    /**
+     * 取得教學教法清單
+     *
+     * @return array
+     */
+    public function getMethodlist($class){
+        $yerly = mb_substr($class, 0, 3);
+        // if($yerly > 107){
+        //     $Methodlist = Method::where('yerly','<>','107')->where('mode','1')->get()->toArray();
+        // }else{
+        //     $Methodlist = Method::where('yerly','107')->where('mode','1')->get()->toArray();
+        // }
+
+        $Methodlist = Method::where('yerly',$yerly)->where('mode','1')->get()->toArray();
+        return $Methodlist;
+    } 
 }

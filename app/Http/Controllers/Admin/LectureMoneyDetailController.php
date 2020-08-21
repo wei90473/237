@@ -179,7 +179,7 @@ class LectureMoneyDetailController extends Controller
 
             //fill values
             for($i=0; $i<sizeof($classdata); $i++) {
-                
+
                 $clonedWorksheet= clone $objPHPExcel->getSheet(0);
                 $indexname="";
 
@@ -227,7 +227,7 @@ class LectureMoneyDetailController extends Controller
                 $objgetSheet->getStyle('A'.strval($pagecnt).':P'.strval($pagecnt))->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
                 $objgetSheet->getStyle('A'.strval($pagecnt).':P'.strval($pagecnt))->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
                 $objgetSheet->mergeCells('A'.strval($pagecnt).':P'.strval($pagecnt));
-                
+
 
                 $objgetSheet->getStyle('A'.strval($pagecnt+1).':P'.strval($pagecnt+1))->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
                 $objgetSheet->getStyle('A'.strval($pagecnt+1).':P'.strval($pagecnt+1))->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
@@ -254,7 +254,7 @@ class LectureMoneyDetailController extends Controller
 
                 $outputname="講座費用請領清冊";
 
-               
+
                 if($condition==1){
                     $outputname.="-班期";
                     $inwclause.=" AND A.class = '".$class."' AND A.term = '".$term."' ";
@@ -517,12 +517,12 @@ class LectureMoneyDetailController extends Controller
                     continue;
                 }
 
-            
+
                 $data=json_decode(json_encode($temp), true);
                 $datakeys=array_keys((array)$data[0]);
 
 
-                $sql="select count(w.wn) as cnt from 
+                $sql="select count(w.wn) as cnt from
                 (
                 SELECT DISTINCT DENSE_RANK() OVER (PARTITION BY X.class,X.term ORDER BY CAST(LEFT(X.date,3) AS int)*100+DATE_FORMAT(CAST(CONCAT(CAST(LEFT(X.date,3)*1+1911 as CHAR),'-',CAST(SUBSTRING(X.date,4,2)*1 as CHAR),'-',RIGHT(X.date,2)*1) AS DATE),'%U')) AS wn
                     FROM t06tb X
@@ -604,23 +604,23 @@ class LectureMoneyDetailController extends Controller
                         }else{
                             if($k == 16){
                                 if($data[$j][$datakeys[$k]] != ''){
-                                    $t09tb = T09tb::select(DB::raw('IFNULL(planeamt, 0)+IFNULL(mrtamt, 0)+IFNULL(trainamt, 0)+IFNULL(ship, 0) a_total, planestart, plane_d, mrt_o, mrt_d, train_o, train_d, ship_o, ship_d, otheramt'))->where('id', $data[$j][$datakeys[$k]])->get()->toArray();
+                                    $t09tb = T09tb::select(DB::raw('IFNULL(planeamt, 0)+IFNULL(mrtamt, 0)+IFNULL(trainamt, 0)+IFNULL(ship, 0) a_total, planestart, plane_d, mrt_o, mrt_d, train_o, train_d, ship_o, ship_d, IFNULL(planeamt, 0) planeamt, IFNULL(mrtamt, 0) mrtamt, IFNULL(trainamt, 0) trainamt, IFNULL(ship, 0) ship, otheramt'))->where('id', $data[$j][$datakeys[$k]])->get()->toArray();
                                     $remark = '';
                                     if(!empty($t09tb)){
                                         // dd($t09tb);
                                         if($t09tb[0]['a_total'] > 0){
-                                            $remark = "交通費".$t09tb[0]['a_total']."元";
+                                            $remark = "交通費".$t09tb[0]['a_total']."元\n";
                                             if(!empty($t09tb[0]['planestart']) && !empty($t09tb[0]['plane_d'])){
-                                                $remark .= "( 飛機高鐵 - ".$t09tb[0]['planestart']." - ".$t09tb[0]['plane_d']." )\n";
+                                                $remark .= "( 飛機高鐵 ： ".$t09tb[0]['planestart']." - ".$t09tb[0]['plane_d']." ，".$t09tb[0]['planeamt']."元 )\n";
                                             }
                                             if(!empty($t09tb[0]['mrt_o']) && !empty($t09tb[0]['mrt_d'])){
-                                                $remark .= "( 汽車捷運 - ".$t09tb[0]['mrt_o']." - ".$t09tb[0]['mrt_d']." )\n";
+                                                $remark .= "( 汽車捷運 ： ".$t09tb[0]['mrt_o']." - ".$t09tb[0]['mrt_d']." ，".$t09tb[0]['mrtamt']."元 )\n";
                                             }
                                             if(!empty($t09tb[0]['train_o']) && !empty($t09tb[0]['train_d'])){
-                                                $remark .= "( 火車 - ".$t09tb[0]['train_o']." - ".$t09tb[0]['train_d']." )\n";
+                                                $remark .= "( 火車 ： ".$t09tb[0]['train_o']." - ".$t09tb[0]['train_d']." ，".$t09tb[0]['trainamt']."元 )\n";
                                             }
                                             if(!empty($t09tb[0]['ship_o']) && !empty($t09tb[0]['ship_d'])){
-                                                $remark .= "( 船舶 - ".$t09tb[0]['ship_o']." - ".$t09tb[0]['ship_d']." )\n";
+                                                $remark .= "( 船舶 ： ".$t09tb[0]['ship_o']." - ".$t09tb[0]['ship_d']." ，".$t09tb[0]['ship']."元 )\n";
                                             }
                                         }
                                         // dd($remark);
@@ -719,9 +719,9 @@ class LectureMoneyDetailController extends Controller
             $RptBasic = new \App\Rptlib\RptBasic();
             $RptBasic->exportfile($objPHPExcel,"2",$request->input('doctype'),$outputname);
             //$obj: entity of file
-            //$objtype:1.PhpWord 2.PhpSpreadsheet 3.PhpExcel 
+            //$objtype:1.PhpWord 2.PhpSpreadsheet 3.PhpExcel
             //$doctype:1.ooxml 2.odf
-            //$filename:filename 
+            //$filename:filename
 
     }
 

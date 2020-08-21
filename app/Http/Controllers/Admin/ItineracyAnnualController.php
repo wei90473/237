@@ -168,7 +168,15 @@ class ItineracyAnnualController extends Controller
     //主題新增
     public function settingstore(Request $request){
         $data = $request->all();
-        $check_items = itineracy_annual::select('id','items')->where('items', $data['items'])->first();
+        if(!isset($data['unit'])){
+          $data['unit'] = '';
+        }
+        if(!isset($data['category'])){
+          $data['category'] = '';
+        }
+
+        $check_items = itineracy_annual::select('id','items')->where('yerly', $data['yerly'])->where('term', $data['term'])->where('items', $data['items'])->first();
+        // dd($check_items);
         if(is_null($check_items)){
           $insert = itineracy_annual::insert( array('yerly'=>$data['yerly'],'term'=>$data['term'],'items'=>$data['items'],'type1'=>$data['theme'],'type3'=>$data['unit'],'type2'=>$data['category'] ) );
         }else{
@@ -182,13 +190,21 @@ class ItineracyAnnualController extends Controller
     }
     //主題修改
     public function settingupdate(Request $request,$id){
-        $check = itineracy_annual::select('id','items')->where('id', $id)->first();
+        $check = itineracy_annual::select('id','items','yerly','term')->where('id', $id)->first()->toArray();
         // var_dump($check[0]);exit();
         if (is_null($check)) return back()->with('result', '0')->with('message', '修改失敗，錯誤代號!');
 
         $data = $request->all();
+        if(!isset($data['E_unit'])){
+          $data['E_unit'] = '';
+        }
+        if(!isset($data['E_category'])){
+          $data['E_category'] = '';
+        }
+        // dd($check);
+        // dd($data);
         if($data['E_items']!=$check['items']){
-          $check_items = itineracy_annual::select('id','items')->where('items', $data['E_items'])->first();
+          $check_items = itineracy_annual::select('id','items')->where('yerly', $check['yerly'])->where('term', $check['term'])->where('items', $data['E_items'])->first();
           if(is_null($check_items)){
             $updata = itineracy_annual::where('id', $id)->update( array('type1'=>$data['E_theme'],'items'=>$data['E_items'],'type3'=>$data['E_unit'],'type2'=>$data['E_category']) );
           }else{
