@@ -442,7 +442,7 @@ class ClassesRequirementsController extends Controller
         try{
             T35tb::create($logarray);
             $sql = DB::getQueryLog();
-            $nowdata = T35tb::where('class',$data['class'])->where('term',$data['term'])->where('date',$data['date'])->where('type',$data['type'])->get()->toarray();
+            $nowdata = T35tb::where('logdate',$logarray['logdate'])->where('logtime',$logarray['logtime'])->where('type',$logarray['type'])->get()->toarray();
             createModifyLog('I','t35tb','',$nowdata,end($sql));
             if($branch =='1'){  
                 $olddata = T23tb::where('class',$data['class'])->where('term',$data['term'])->where('date',$data['date'])->get()->toarray();    
